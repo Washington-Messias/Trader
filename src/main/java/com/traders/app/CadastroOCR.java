@@ -52,36 +52,56 @@ public class CadastroOCR extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        cadastro = new javax.swing.JButton();
+        statusOCR = new javax.swing.JLabel();
+        date = new javax.swing.JLabel();
+        labelHora = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         fundo30 = new javax.swing.JCheckBox();
         topo30 = new javax.swing.JCheckBox();
         fundoDiario = new javax.swing.JCheckBox();
         topoDiario = new javax.swing.JCheckBox();
-        sim_ponto = new javax.swing.JCheckBox();
-        nao_ponto = new javax.swing.JCheckBox();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        cadastroOCR = new javax.swing.JButton();
-        statusOCR = new javax.swing.JLabel();
         fundo30_diario = new javax.swing.JCheckBox();
         topo30_diario = new javax.swing.JCheckBox();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        sim_ponto = new javax.swing.JCheckBox();
+        nao_ponto = new javax.swing.JCheckBox();
+        jPanel4 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         sim_ranger = new javax.swing.JCheckBox();
         nao_ranger = new javax.swing.JCheckBox();
+        jPanel5 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         sim_acertou = new javax.swing.JCheckBox();
         nao_acertou = new javax.swing.JCheckBox();
-        date = new javax.swing.JLabel();
-        labelHora = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Cadastro de Ocorrencias");
-        setAutoRequestFocus(false);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Cadastro de Ocorrencias Automatico");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
             }
         });
+
+        cadastro.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        cadastro.setText("Cadastro de Ocorrencia");
+        cadastro.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 204, 204), new java.awt.Color(204, 204, 204), null, null));
+        cadastro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cadastroActionPerformed(evt);
+            }
+        });
+
+        statusOCR.setText("status da ocorrencia");
+
+        date.setText("Data");
+
+        labelHora.setText("00:00:00");
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nome da Ocorrencias", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 12))); // NOI18N
 
         fundo30.setText("fundo30");
         fundo30.addActionListener(new java.awt.event.ActionListener() {
@@ -111,37 +131,6 @@ public class CadastroOCR extends javax.swing.JFrame {
             }
         });
 
-        sim_ponto.setText("Sim");
-        sim_ponto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sim_pontoActionPerformed(evt);
-            }
-        });
-
-        nao_ponto.setText("Não");
-        nao_ponto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nao_pontoActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setText("Ponto");
-
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setText("Ocorrencia");
-
-        cadastroOCR.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        cadastroOCR.setText("Cadastro de Ocorrencia");
-        cadastroOCR.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 204, 204), new java.awt.Color(204, 204, 204), null, null));
-        cadastroOCR.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cadastroOCRActionPerformed(evt);
-            }
-        });
-
-        statusOCR.setText("status da ocorrencia");
-
         fundo30_diario.setText("fundo30 - diario");
         fundo30_diario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -156,22 +145,137 @@ public class CadastroOCR extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(fundo30)
+                    .addComponent(topo30)
+                    .addComponent(fundoDiario))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(topo30_diario)
+                    .addComponent(fundo30_diario)
+                    .addComponent(topoDiario))
+                .addContainerGap(68, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fundo30)
+                    .addComponent(topoDiario))
+                .addGap(7, 7, 7)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(topo30)
+                    .addComponent(fundo30_diario))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addComponent(fundoDiario))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(topo30_diario)))
+                .addContainerGap(21, Short.MAX_VALUE))
+        );
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Atributos da ocorrencia", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 12))); // NOI18N
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setText("Ponto");
+
+        sim_ponto.setText("Sim");
+        sim_ponto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sim_pontoActionPerformed(evt);
+            }
+        });
+
+        nao_ponto.setText("Não");
+        nao_ponto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nao_pontoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(38, 38, 38))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(sim_ponto)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addComponent(nao_ponto)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sim_ponto)
+                    .addComponent(nao_ponto))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel5.setText("Range");
 
-        sim_ranger.setText("Sim");
+        sim_ranger.setText("4pts");
         sim_ranger.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sim_rangerActionPerformed(evt);
             }
         });
 
-        nao_ranger.setText("Não");
+        nao_ranger.setText("6pts");
         nao_ranger.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nao_rangerActionPerformed(evt);
             }
         });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel5)
+                .addGap(27, 27, 27))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(sim_ranger)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(nao_ranger)
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel5)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sim_ranger)
+                    .addComponent(nao_ranger, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+
+        jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setText("Acertou?");
@@ -190,9 +294,58 @@ public class CadastroOCR extends javax.swing.JFrame {
             }
         });
 
-        date.setText("Data");
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel6)
+                        .addGap(19, 19, 19))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addComponent(sim_acertou)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addComponent(nao_acertou)
+                        .addContainerGap())))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sim_acertou)
+                    .addComponent(nao_acertou))
+                .addContainerGap())
+        );
 
-        labelHora.setText("Hora");
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -201,114 +354,48 @@ public class CadastroOCR extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(71, 71, 71)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(sim_ponto)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(57, 57, 57)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(53, 53, 53)
-                                        .addComponent(nao_ponto))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel1)
-                                        .addGap(153, 153, 153)
-                                        .addComponent(jLabel5)))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(nao_ranger))
+                        .addGap(84, 84, 84)
+                        .addComponent(statusOCR))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(132, 132, 132)
-                                .addComponent(date))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(sim_ranger)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(topo30)
-                                            .addComponent(fundo30)
-                                            .addComponent(fundoDiario)
-                                            .addComponent(topoDiario)
-                                            .addComponent(fundo30_diario)
-                                            .addComponent(topo30_diario))
-                                        .addGap(164, 164, 164)))))
-                        .addGap(48, 48, 48)
-                        .addComponent(labelHora)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(sim_acertou)
-                        .addGap(51, 51, 51)
-                        .addComponent(nao_acertou))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(44, 44, 44)))
-                .addGap(75, 75, 75))
+                        .addGap(222, 222, 222)
+                        .addComponent(cadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
+                .addGap(48, 48, 48)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(255, 255, 255)
-                        .addComponent(cadastroOCR, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(113, 113, 113)
-                        .addComponent(statusOCR)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+                        .addComponent(date)
+                        .addGap(65, 65, 65)
+                        .addComponent(labelHora)
+                        .addGap(83, 83, 83))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(87, 87, 87)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(date)
-                            .addComponent(labelHora))
-                        .addGap(205, 205, 205)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(sim_acertou)
-                            .addComponent(nao_acertou)))
+                            .addComponent(labelHora)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(nao_ranger)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(fundo30)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(topo30)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(fundoDiario)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(topoDiario)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(fundo30_diario)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(topo30_diario)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel1)
-                                .addGap(0, 0, 0)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(nao_ponto)
-                                    .addComponent(sim_ponto)
-                                    .addComponent(sim_ranger))))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addComponent(cadastroOCR)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(26, 26, 26)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cadastro)
+                .addGap(30, 30, 30)
                 .addComponent(statusOCR)
-                .addGap(24, 24, 24))
+                .addGap(282, 282, 282))
         );
 
-        setSize(new java.awt.Dimension(728, 456));
+        setSize(new java.awt.Dimension(658, 478));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -318,43 +405,7 @@ public class CadastroOCR extends javax.swing.JFrame {
     Function<Boolean, String> decisao = p -> p == true ? "sim" : "nao";
     Function<Boolean, String> rang = r -> r == true ? "4pts" : "6pts";
 
-/*
-    private String fundoDeTrinta() {
 
-        return "fundo de trinta";
-
-    }
-
-    private String topoDeTrinta() {
-
-        return "topo de trinta";
-
-    }
-
-    private String topoDiario() {
-
-        return "topo diario";
-
-    }
-
-    private String fundoDiario() {
-
-        return "fundo diario";
-
-    }
-
-    private String fundoTrintaDiario() {
-
-        return "fundo de trinta diario";
-
-    }
-
-    private String topoTrintaDiario() {
-
-        return "topo de trinta diario";
-
-    }
-*/
     private Boolean acertou() {
         if (sim_acertou.isSelected()) {
             return true;
@@ -556,7 +607,7 @@ private String valor(){
         }
     }//GEN-LAST:event_nao_acertouActionPerformed
 
-    private void cadastroOCRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastroOCRActionPerformed
+    private void cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastroActionPerformed
         // TODO add your handling code here:
 
         verificacao();
@@ -762,7 +813,7 @@ private String valor(){
         }
 
 */
-    }//GEN-LAST:event_cadastroOCRActionPerformed
+    }//GEN-LAST:event_cadastroActionPerformed
     }
     private String nomes(){
         String nome;
@@ -848,15 +899,19 @@ private String valor(){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton cadastroOCR;
+    private javax.swing.JButton cadastro;
     private javax.swing.JLabel date;
     private javax.swing.JCheckBox fundo30;
     private javax.swing.JCheckBox fundo30_diario;
     private javax.swing.JCheckBox fundoDiario;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JLabel labelHora;
     private javax.swing.JCheckBox nao_acertou;
     private javax.swing.JCheckBox nao_ponto;

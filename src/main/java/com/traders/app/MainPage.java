@@ -4,7 +4,11 @@
  */
 package com.traders.app;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.text.DateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -13,6 +17,11 @@ import java.util.Date;
  */
 public class MainPage extends javax.swing.JFrame {
 
+    CadastroOCR automatico = new CadastroOCR();
+     Estatisticas frame = new Estatisticas();
+     CadastroOCRManual manual = new CadastroOCRManual();
+     Sobre sobre = new Sobre();
+    
     /**
      * Creates new form MainPage
      */
@@ -29,18 +38,24 @@ public class MainPage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenu1 = new javax.swing.JMenu();
         jToolBar1 = new javax.swing.JToolBar();
-        desk = new javax.swing.JDesktopPane();
+        jPanel1 = new javax.swing.JPanel();
         data = new javax.swing.JLabel();
+        ola = new javax.swing.JLabel();
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
         cadastro = new javax.swing.JMenuItem();
+        cadastroManual = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         estatistica = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        sobreText = new javax.swing.JMenuItem();
+
+        jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Começo");
-        setPreferredSize(new java.awt.Dimension(912, 816));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
@@ -49,32 +64,51 @@ public class MainPage extends javax.swing.JFrame {
 
         jToolBar1.setRollover(true);
 
-        desk.setForeground(new java.awt.Color(255, 102, 0));
-        desk.setPreferredSize(new java.awt.Dimension(850, 725));
-
-        javax.swing.GroupLayout deskLayout = new javax.swing.GroupLayout(desk);
-        desk.setLayout(deskLayout);
-        deskLayout.setHorizontalGroup(
-            deskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 850, Short.MAX_VALUE)
-        );
-        deskLayout.setVerticalGroup(
-            deskLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 725, Short.MAX_VALUE)
-        );
+        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         data.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         data.setText("data");
 
+        ola.setText("jLabel1");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(160, 160, 160)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(data)
+                    .addComponent(ola))
+                .addContainerGap(171, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(data)
+                .addGap(64, 64, 64)
+                .addComponent(ola)
+                .addContainerGap(96, Short.MAX_VALUE))
+        );
+
         jMenu3.setText("Cadastro");
 
-        cadastro.setText("Cadastrar");
+        cadastro.setText("Cadastro autômatico");
         cadastro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cadastroActionPerformed(evt);
             }
         });
         jMenu3.add(cadastro);
+
+        cadastroManual.setText("Cadastro Manual");
+        cadastroManual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cadastroManualActionPerformed(evt);
+            }
+        });
+        jMenu3.add(cadastroManual);
 
         jMenuBar2.add(jMenu3);
 
@@ -90,6 +124,18 @@ public class MainPage extends javax.swing.JFrame {
 
         jMenuBar2.add(jMenu4);
 
+        jMenu2.setText("Sobre");
+
+        sobreText.setText("Sobre");
+        sobreText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sobreTextActionPerformed(evt);
+            }
+        });
+        jMenu2.add(sobreText);
+
+        jMenuBar2.add(jMenu2);
+
         setJMenuBar(jMenuBar2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -97,57 +143,102 @@ public class MainPage extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(83, Short.MAX_VALUE)
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(252, 252, 252))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(desk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
-                .addComponent(data)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(61, 61, 61))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(desk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(data)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(89, 89, 89))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(1008, 854));
+        setSize(new java.awt.Dimension(544, 367));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastroActionPerformed
         // TODO add your handling code here:
         
-        CadastroOCR cadastro = new CadastroOCR();
-        cadastro.setVisible(true);
+        if(automatico.isVisible() == true){
+            
+        }else{
+            
+        automatico.setVisible(true);
+        }
     }//GEN-LAST:event_cadastroActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         // TODO add your handling code here:
-        
+        int horas = 0;
         Date date = new Date();
         DateFormat formatter = DateFormat.getDateInstance(DateFormat.SHORT);
         String dataText = formatter.format(date);
         data.setText(dataText);
+        
+        
+         LocalDateTime agora = LocalDateTime.now();
+        DateTimeFormatter formatar = DateTimeFormatter.ofPattern("HH");
+        String hora = formatar.format(agora);
+        
+        horas = Integer.valueOf(hora);
+        
+        if(horas >= 6 && horas < 12){
+           ola.setForeground(Color.blue);
+            ola.setFont(new Font("sans-serif", Font.BOLD, 16));
+            ola.setText("Bom dia, Eduardo!!!");
+        }else if( horas >= 12 && horas < 18){
+               ola.setForeground(Color.blue);
+            ola.setFont(new Font("sans-serif", Font.BOLD, 16));
+            ola.setText("Boa tarde, Eduardo!!!");
+        }else if(horas >= 18 && horas < 00){
+                ola.setForeground(Color.blue);
+            ola.setFont(new Font("sans-serif", Font.BOLD, 16));
+            ola.setText("Boa noite, Eduardo!!!");
+        }else{
+            System.out.println("erro...");
+        }
+            
+        
     }//GEN-LAST:event_formWindowActivated
 
     private void estatisticaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_estatisticaActionPerformed
         // TODO add your handling code here:
-        Estatisticas frame = new Estatisticas();
+       
+        if(frame.isVisible() == true){
+            
+        }else{
+            
         frame.setVisible(true);
+        }
         
     }//GEN-LAST:event_estatisticaActionPerformed
+
+    private void cadastroManualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastroManualActionPerformed
+        // TODO add your handling code here:
+        if(manual.isVisible() == true){
+            
+        }else{
+            manual.setVisible(true);
+        }
+    }//GEN-LAST:event_cadastroManualActionPerformed
+
+    private void sobreTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sobreTextActionPerformed
+        // TODO add your handling code here:
+        if(sobre.isVisible() == true){
+            
+        }else{
+            sobre.setVisible(true);
+        }
+    }//GEN-LAST:event_sobreTextActionPerformed
 
     /**
      * @param args the command line arguments
@@ -186,12 +277,17 @@ public class MainPage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem cadastro;
+    private javax.swing.JMenuItem cadastroManual;
     public static javax.swing.JLabel data;
-    private javax.swing.JDesktopPane desk;
     private javax.swing.JMenuItem estatistica;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JLabel ola;
+    private javax.swing.JMenuItem sobreText;
     // End of variables declaration//GEN-END:variables
 }

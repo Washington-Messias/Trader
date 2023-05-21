@@ -30,16 +30,16 @@ public class mateDO {
     }
 
     public static Integer erros(Set<Ocorrencias> ocor) {
-        int acertos = 0;
+        
         int erros = 0;
 
         for (Ocorrencias oc : ocor) {
-            if (oc.getAcertou().contains("sim") == true) {
-                acertos++;
+            if (oc.getAcertou().contains("nao") == true) {
+                erros++;
             }
         }
 
-        erros = ocor.size() - acertos;
+       
 
         return erros;
     }
@@ -139,29 +139,39 @@ public class mateDO {
             }
         }
 
-        percento = (acertos + 100) / ocor.size();
+        if (acertos > 0) {
 
-        return percento;
+            percento = (acertos * 100) / ocor.size();
+
+            return percento;
+        } else {
+            return percento;
+        }
 
     }
 
     public static Double porcentagemErros(Set<Ocorrencias> ocor) {
-        int acertos = 0;
+       
         int erros = 0;
         double percento = 0;
 
         for (Ocorrencias oc : ocor) {
-            if (oc.getAcertou().contains("sim") == true) {
-                acertos++;
+            if (oc.getAcertou().contains("nao") == true) {
+                erros++;
             }
 
         }
 
-        erros = ocor.size() - acertos;
+        if (erros > 0) {
 
-        percento = (erros * 100) / ocor.size();
+            percento = (erros * 100) / ocor.size();
 
-        return percento;
+            return percento;
+        } else {
+            
+            return percento;
+        }
+
     }
 
     public static Double porcentoPontos(Set<Ocorrencias> ocor) {
@@ -174,9 +184,14 @@ public class mateDO {
             }
         }
 
-        porcento = (pontos * 100) / ocor.size();
+        if (pontos > 0) {
+            porcento = (pontos * 100) / ocor.size();
+            return porcento;
+        } else {
 
-        return porcento;
+            return porcento;
+        }
+
     }
 
     public static Double porcentoSemPonto(Set<Ocorrencias> ocor) {
@@ -189,9 +204,14 @@ public class mateDO {
             }
         }
 
-        porcento = (pontos * 100) / ocor.size();
+        if (pontos > 0) {
+            porcento = (pontos * 100) / ocor.size();
+            return porcento;
+        } else {
 
-        return porcento;
+            return porcento;
+        }
+
     }
 
     public static Double percentoRanger4(Set<Ocorrencias> ocor) {
@@ -203,44 +223,57 @@ public class mateDO {
                 ranger++;
             }
         }
+        if (ranger > 0) {
+            percento = (ranger * 100) / ocor.size();
 
-        percento = (ranger * 100) / ocor.size();
+        } else {
+            percento = 0;
+        }
 
         return percento;
     }
 
     public static Double percentoRanger6(Set<Ocorrencias> ocor) {
-        int ranger4 = 0;
+        
         int ranger6 = 0;
         double percento = 0;
 
         for (Ocorrencias oc : ocor) {
-            if (oc.getRanger().contains("4pts") == true) {
-                ranger4++;
+            if (oc.getRanger().contains("6pts") == true) {
+                ranger6++;
             }
         }
 
-        ranger6 = ocor.size() - ranger4;
+        if (ranger6 > 0) {
 
-        percento = (ranger6 * 100) / ocor.size();
+            
+
+            percento = (ranger6 * 100) / ocor.size();
+        } else {
+            percento = 0;
+        }
 
         return percento;
     }
-    
-    public static Double percentoRangerNulo(Set<Ocorrencias> ocor){
+
+    public static Double percentoRangerNulo(Set<Ocorrencias> ocor) {
         int ranger = 0;
         double percento = 0;
-        
-        for(Ocorrencias oc: ocor){
-            if(oc.getRanger().contains("0") == true){
+
+        for (Ocorrencias oc : ocor) {
+            if (oc.getRanger().contains("0") == true) {
                 ranger++;
             }
         }
-        
-        percento = (ranger *100) / ocor.size();
-        
-        return percento;
-        
+
+        if (ranger > 0) {
+            percento = (ranger * 100) / ocor.size();
+            return percento;
+        } else {
+
+            return percento;
+        }
+
     }
 
 }

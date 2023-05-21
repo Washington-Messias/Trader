@@ -13,6 +13,7 @@ package com.traders.models;
  */
 public class DadosOcorrencia {
     
+    private Object id;
     private String nome;
     private int hora = 0;
     private int quantidade = 0;
@@ -36,7 +37,11 @@ public class DadosOcorrencia {
     public DadosOcorrencia() {
     }
     
-    ;
+    public DadosOcorrencia(Object id, String nome, int hora){
+   this.setId(id);
+   this.setNome(nome);
+   this.setHora(hora);
+    }
 
     public DadosOcorrencia(String nome, int hora, int quantidade, int acertos, int erros, int range4, int range6, int rangerNulo, int todosRanger, int ponto, int semPontos,int todosPontos, double percentualAcertos, double percentualErros, double percentualRange4, double percentualRange6, double percentoRangerNulo, double percentualPonto, double percentualSemPontos) {
         this.setNome(nome);
@@ -59,6 +64,16 @@ public class DadosOcorrencia {
         this.setPercentualPonto(percentualPonto);
         this.setPercentualSemPontos(percentualSemPontos);
     }
+
+    public Object getId() {
+        return id;
+    }
+
+    public void setId(Object id) {
+        this.id = id;
+    }
+    
+    
     
     public String getNome() {
         return nome;

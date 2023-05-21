@@ -26,42 +26,44 @@ public class Sobre extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sobre");
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/legal_license_mit.png"))); // NOI18N
-
         jLabel2.setText("Desenvolvido por Washington Messias");
 
         jLabel3.setText("Contato profissional: washingtonmmdasilva@outlook.com");
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/legal_license_mit.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(72, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel2)
-                        .addComponent(jLabel3)))
-                .addGap(55, 55, 55))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addGap(89, 89, 89))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(67, 67, 67)
+                .addComponent(jLabel4)
+                .addContainerGap(68, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addContainerGap(39, Short.MAX_VALUE)
+                .addComponent(jLabel4)
+                .addGap(36, 36, 36)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
-                .addGap(19, 19, 19))
+                .addGap(26, 26, 26))
         );
 
         setSize(new java.awt.Dimension(508, 428));
@@ -104,8 +106,8 @@ public class Sobre extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables
 }

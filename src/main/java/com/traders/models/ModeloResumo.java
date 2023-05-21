@@ -6,6 +6,7 @@ package com.traders.models;
 
 import java.util.Set;
 import com.traders.utilidades.metematicaDO.mateDO;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Windows 7
@@ -32,7 +33,7 @@ public class ModeloResumo {
         double tlRanger6 = 0;
         double tlRangerNulo = 0;
         double tlErros = 0;
-    
+    //try{
  
        pontos = mateDO.pontos(ocor);
        semPontos = mateDO.semPontos(ocor);
@@ -55,9 +56,13 @@ public class ModeloResumo {
 
         
     DadosOcorrencia dados = new DadosOcorrencia(nome, hora, quantidade, acertos, erros, ranger4, ranger6, rangerNulo, todosRanger, pontos, semPontos,  todosPontos, total, tlErros, tlRanger4, tlRanger6, tlRangerNulo, tlPontos, tlSemPontos);
-        
+    
     
     return dados;
+    //}catch(Exception e){
+        //JOptionPane.showMessageDialog(null, "Erro na tranformaÃ§Ã£o de dados: " +e);
+   // }
+    //return null;
     }
     
    

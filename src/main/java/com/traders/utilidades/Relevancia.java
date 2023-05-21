@@ -17,7 +17,7 @@ import java.util.LinkedHashSet;
  * @author Windows 7
  */
 /*
-*classe que tem a finalidade de decidir qual a melhor ocorrencia e qual a que se destacaria por relevancia que terá o criterio de quantidade de ocôrrencias
+*classe que tem a finalidade de decidir qual a melhor ocorrencia seguindo o críterio de maior percentual de acertos independente da quantidade de ocorrencias. Entretanto, o método destaque faz essa analise levando em conta sua quantidade de ocorrencia!
  */
 public class Relevancia {
     ListaDeComparacao guarde = new ListaDeComparacao();
@@ -56,16 +56,13 @@ public class Relevancia {
 
     public DadosOcorrencia pior(Set<DadosOcorrencia> ocor) {
         double erro = 0;
-        int quantidade = 0;
+        
         DadosOcorrencia dados = null;
         for (DadosOcorrencia oc : ocor) {
-            if (oc.getPercentualErros() > erro) {
-                erro = oc.getPercentualErros();
-                if (oc.getQuantidade() > quantidade) {
-                    quantidade = oc.getQuantidade();
-                    dados = oc;
-                }
-            }
+          if(oc.getPercentualErros() > 0){
+              erro = oc.getPercentualErros();
+              dados = oc;
+          }
         }
         return dados;
     }
@@ -91,7 +88,7 @@ public class Relevancia {
         percento = oc.getPercentualAcertos();
         dados = oc;
          }else if(oc.getPercentualAcertos() == percento){
-             guarde.lista.add(oc);
+             guarde.list.add(oc);
          }
      }
      return dados;

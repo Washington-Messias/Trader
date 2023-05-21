@@ -4,10 +4,8 @@
  */
 package com.traders.models;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
-
-
 
 /**
  *
@@ -15,27 +13,14 @@ import java.util.Set;
  */
 public class ListaDeComparacao {
     
-    public Set<DadosOcorrencia> lista = new HashSet<>();
+    public static Set<DadosOcorrencia> list = new LinkedHashSet<DadosOcorrencia>();
     
-    public  void adicionar(DadosOcorrencia oc){
-        if(lista.contains(oc) == true){
-            
-        }else{
-            lista.add(oc);
-        }
-    }
     
-public Set<DadosOcorrencia> conteudo(){
-    Set<DadosOcorrencia> list = new HashSet<>();
-    
-    for(DadosOcorrencia oc : lista){
-        if(list.contains(oc) == true){
+    public static void adicionar(DadosOcorrencia oc){
+        if(list.contains(oc.getId()) == true){
             
         }else{
             list.add(oc);
         }
     }
-    return list;
-}
-    
 }

@@ -27,6 +27,11 @@ import java.util.List;
 import com.traders.models.ListaDeComparacao;
 import com.traders.models.Observation;
 import java.awt.Color;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 /**
@@ -52,24 +57,23 @@ public class Estatisticas extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        nome = new javax.swing.JComboBox<>();
         gerar = new javax.swing.JButton();
-        semana = new javax.swing.JCheckBox();
-        mes = new javax.swing.JCheckBox();
-        tres_meses = new javax.swing.JCheckBox();
-        seis_meses = new javax.swing.JCheckBox();
-        um_ano = new javax.swing.JCheckBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         resultados = new javax.swing.JTextArea();
+        salvarDocumento = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        nome = new javax.swing.JComboBox<>();
         horario = new javax.swing.JComboBox<>();
+        semana = new javax.swing.JCheckBox();
+        tres_meses = new javax.swing.JCheckBox();
+        mes = new javax.swing.JCheckBox();
+        seis_meses = new javax.swing.JCheckBox();
+        um_ano = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("estatisticas"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(822, 988));
-
-        nome.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "fundo30", "topo30", "fundo30 - diario", "topo30 - diario", "topo diario", "fundo diario" }));
 
         gerar.setText("Gerar");
         gerar.addActionListener(new java.awt.event.ActionListener() {
@@ -78,6 +82,34 @@ public class Estatisticas extends javax.swing.JFrame {
             }
         });
 
+        tabela.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED, java.awt.Color.lightGray, java.awt.Color.lightGray, java.awt.Color.darkGray, java.awt.Color.darkGray));
+        tabela.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane1.setViewportView(tabela);
+
+        resultados.setColumns(20);
+        resultados.setRows(5);
+        jScrollPane2.setViewportView(resultados);
+
+        salvarDocumento.setText("Salvar Documento");
+        salvarDocumento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                salvarDocumentoActionPerformed(evt);
+            }
+        });
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Filtro", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 1, 12))); // NOI18N
+
+        nome.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "fundo30", "topo30", "fundo30 - diario", "topo30 - diario", "topo diario", "fundo diario" }));
+
+        horario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "9 H", "10 H", "11 H", "12 H", "13 H", "14 H", "15 H", "16 H" }));
+
         semana.setText("últimos 7 dias");
         semana.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -85,17 +117,17 @@ public class Estatisticas extends javax.swing.JFrame {
             }
         });
 
-        mes.setText("Mês");
-        mes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mesActionPerformed(evt);
-            }
-        });
-
         tres_meses.setText("3 mêses");
         tres_meses.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tres_mesesActionPerformed(evt);
+            }
+        });
+
+        mes.setText("Mês");
+        mes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mesActionPerformed(evt);
             }
         });
 
@@ -113,79 +145,90 @@ public class Estatisticas extends javax.swing.JFrame {
             }
         });
 
-        tabela.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane1.setViewportView(tabela);
-
-        resultados.setColumns(20);
-        resultados.setRows(5);
-        jScrollPane2.setViewportView(resultados);
-
-        horario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "9 H", "10 H", "11 H", "12 H", "13 H", "14 H", "15 H", "16 H" }));
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(horario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(um_ano)
+                    .addComponent(seis_meses)
+                    .addComponent(mes)
+                    .addComponent(semana)
+                    .addComponent(tres_meses))
+                .addGap(25, 25, 25))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(semana))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(mes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(horario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tres_meses, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(seis_meses)
+                .addGap(18, 18, 18)
+                .addComponent(um_ano)
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(77, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 586, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(83, 83, 83))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(gerar, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(horario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(245, 245, 245)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(um_ano)
-                                    .addComponent(seis_meses)
-                                    .addComponent(tres_meses)
-                                    .addComponent(mes)
-                                    .addComponent(semana))))
-                        .addGap(165, 165, 165))))
             .addGroup(layout.createSequentialGroup()
-                .addGap(147, 147, 147)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(81, 81, 81)
+                        .addComponent(salvarDocumento))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 614, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28)
+                                .addComponent(gerar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(semana)
-                    .addComponent(nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mes)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tres_meses)
-                    .addComponent(horario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(seis_meses)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(um_ano)
-                .addGap(67, 67, 67)
-                .addComponent(gerar)
-                .addGap(38, 38, 38)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(gerar)
+                        .addGap(108, 108, 108)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(salvarDocumento)
+                        .addGap(202, 202, 202))))
         );
 
-        setSize(new java.awt.Dimension(762, 871));
+        setSize(new java.awt.Dimension(800, 901));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -215,7 +258,7 @@ public class Estatisticas extends javax.swing.JFrame {
         DadosOcorrencia ddp = new DadosOcorrencia();
         RetornandoNome nm = new RetornandoNome();
         ListaDeNomes listName = new ListaDeNomes();
-        ListaDeComparacao guardado = new ListaDeComparacao();
+       
         Relevancia relevante = new Relevancia();
         Set<DadosOcorrencia> ddOcor = new LinkedHashSet<DadosOcorrencia>();
         Set<DadosOcorrencia> QTD = new LinkedHashSet<DadosOcorrencia>();
@@ -253,8 +296,8 @@ public class Estatisticas extends javax.swing.JFrame {
         int h = hrs.resultados(horarios());
         //inserindo dados na tabela
         for (Ocorrencias oc : result) {
-            System.out.println(oc.toString());
-            if (registros.contains(oc) == true) {
+        
+            if (registros.contains(oc.get_Id()) == true) {
 
             } else {
 
@@ -264,8 +307,7 @@ public class Estatisticas extends javax.swing.JFrame {
 
             }
             registros.add(oc);
-            System.out.println("Conferindo o tamanho do observador" + "\n");
-            System.out.println(registros.size());
+          
         }
         /*
             *TODO necessario alterar dentro da condição h == 1 o nome do resultado que deve ser conforme 
@@ -275,14 +317,305 @@ public class Estatisticas extends javax.swing.JFrame {
         //mostrando dados na tela de texto
         switch (h) {
             case 1:
+            
+                
+                
+                 switch(nome.getSelectedItem().toString()){
+                     
+                     case "fundo30":
+                         fd30.addAll(listName.lista(result, nm.fundo30()));
+                         
+                         ddOcor.add(resume.resumo(fd30, nm.fundo30(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                fundo30  = resume.resumo(fd30, nm.fundo30(), h);
+                resultados.append(fundo30.toString() + "\n");
+                
+                break;
+                
+                 case "topo30":
+                         tp30.addAll(listName.lista(result, nm.topo30()));
+                         
+                         ddOcor.add(resume.resumo(tp30, nm.topo30(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                topo30  = resume.resumo(tp30, nm.topo30(), h);
+                resultados.append(topo30.toString() + "\n");
+                
+                break;
+                
+                 case "fundo30 - diario":
+                         fd30D.addAll(listName.lista(result, nm.fundo30Diario()));
+                         
+                         ddOcor.add(resume.resumo(fd30D, nm.fundo30Diario(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                fundo30D  = resume.resumo(fd30D, nm.fundo30Diario(), h);
+                resultados.append(fundo30D.toString() + "\n");
+                
+                break;
+                
+                 case "topo30 - diario":
+                         tp30D.addAll(listName.lista(result, nm.topo30Diario()));
+                         
+                         ddOcor.add(resume.resumo(tp30D, nm.topo30Diario(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                topo30D  = resume.resumo(tp30D, nm.topo30Diario(), h);
+                resultados.append(topo30D.toString() + "\n");
+                
+                break;
+                
+                 case "fundo diario":
+                         fdd.addAll(listName.lista(result, nm.fundoDiario()));
+                         
+                         ddOcor.add(resume.resumo(fdd, nm.fundoDiario(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                fundoD  = resume.resumo(fdd, nm.fundoDiario(), h);
+                resultados.append(fundoD.toString() + "\n");
+                
+                break;
+                
+                 case "topo diario":
+                         tpd.addAll(listName.lista(result, nm.topoDiario()));
+                         
+                         ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                topoD  = resume.resumo(tpd, nm.topoDiario(), h);
+                resultados.append(topoD.toString() + "\n");
+                
+                break;
+                     
+                 }
                 break;
 
             case 9:
                 fim.addAll(horas.nove(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
+               
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -304,34 +637,39 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+              
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
-
+                
+                if(dd == null){
+                
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
                     resultados.append(destaque + "----------------------------" + "\n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+               
 
                 ddOcor.clear();
 
@@ -342,21 +680,18 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 10:
                 fim.addAll(horas.dez(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
+              
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -379,33 +714,39 @@ public class Estatisticas extends javax.swing.JFrame {
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
                 System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+              
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                  if(dd == null){
+                
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
                     resultados.append(destaque + "----------------------------" + "\n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -416,21 +757,18 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 11:
                 fim.addAll(horas.onze(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
+               
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -452,34 +790,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+               
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                 if(dd == null){
+                
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
                     resultados.append(destaque + "----------------------------" + "\n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
                 resultados.append(pior + ddp.toString());
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+              
 
                 ddOcor.clear();
 
@@ -490,21 +834,18 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 12:
                 fim.addAll(horas.doze(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
+                
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -526,34 +867,39 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+                
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+               if(dd == null){
+                
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
                     resultados.append(destaque + "----------------------------" + "\n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+               
 
                 ddOcor.clear();
 
@@ -564,21 +910,18 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 13:
                 fim.addAll(horas.treze(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
+             
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -600,34 +943,38 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
-
+         
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                if(dd == null){
+                
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
                     resultados.append(destaque + "----------------------------" + "\n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+               
 
                 ddOcor.clear();
 
@@ -638,21 +985,18 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 14:
                 fim.addAll(horas.quatorze(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
+             
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -674,34 +1018,39 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+             if(dd == null){
+                
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
                     resultados.append(destaque + "----------------------------" + "\n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+              
 
                 ddOcor.clear();
 
@@ -712,22 +1061,19 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------*\n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 15:
 
                 fim.addAll(horas.quinze(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
+               
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -749,31 +1095,37 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+              
 
                 QTD = relevante.maiorQTD(ddOcor);
                 
-               
-
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+              
+                dd = relevante.melhor(ddOcor);
+              
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+             if(dd == null){
+                
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
                     resultados.append(destaque + "----------------------------" + "\n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
                 for (Ocorrencias oc : fim) {
@@ -789,22 +1141,19 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 16:
 
                 fim.addAll(horas.dezesseis(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
+             
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -826,34 +1175,39 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                 if(dd == null){
+                
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
                     resultados.append(destaque + "----------------------------" + "\n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+           
 
                 ddOcor.clear();
 
@@ -864,12 +1218,12 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
@@ -894,7 +1248,7 @@ public class Estatisticas extends javax.swing.JFrame {
         DadosOcorrencia ddp = new DadosOcorrencia();
         RetornandoNome nm = new RetornandoNome();
         ListaDeNomes listName = new ListaDeNomes();
-        ListaDeComparacao guardado = new ListaDeComparacao();
+        
         Relevancia relevante = new Relevancia();
         Set<DadosOcorrencia> ddOcor = new LinkedHashSet<DadosOcorrencia>();
         Set<DadosOcorrencia> QTD = new LinkedHashSet<DadosOcorrencia>();
@@ -933,7 +1287,7 @@ public class Estatisticas extends javax.swing.JFrame {
         //inserindo dados na tabela
         for (Ocorrencias oc : result) {
             System.out.println(oc.toString());
-            if (registros.contains(oc) == true) {
+            if (registros.contains(oc.get_Id()) == true) {
 
             } else {
 
@@ -944,9 +1298,7 @@ public class Estatisticas extends javax.swing.JFrame {
             }
             registros.add(oc);
 
-            // Observation.adicionar(oc);
-            System.out.println("Conferindo o tamanho do observador" + "\n");
-            System.out.println(registros.size());
+          
         }
         /*
             *TODO necessario alterar dentro da condição h == 1 o nome do resultado que deve ser conforme 
@@ -956,15 +1308,308 @@ public class Estatisticas extends javax.swing.JFrame {
         //mostrando dados na tela de texto
         switch (h) {
             case 1:
+                
+                
+                
+                
+                 switch(nome.getSelectedItem().toString()){
+                     
+                     case "fundo30":
+                         fd30.addAll(listName.lista(result, nm.fundo30()));
+                         
+                         ddOcor.add(resume.resumo(fd30, nm.fundo30(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                fundo30  = resume.resumo(fd30, nm.fundo30(), h);
+                resultados.append(fundo30.toString() + "\n");
+                
+                break;
+                
+                 case "topo30":
+                         tp30.addAll(listName.lista(result, nm.topo30()));
+                         
+                         ddOcor.add(resume.resumo(tp30, nm.topo30(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                topo30  = resume.resumo(tp30, nm.topo30(), h);
+                resultados.append(topo30.toString() + "\n");
+                
+                break;
+                
+                 case "fundo30 - diario":
+                         fd30D.addAll(listName.lista(result, nm.fundo30Diario()));
+                         
+                         ddOcor.add(resume.resumo(fd30D, nm.fundo30Diario(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                fundo30D  = resume.resumo(fd30D, nm.fundo30Diario(), h);
+                resultados.append(fundo30D.toString() + "\n");
+                
+                break;
+                
+                 case "topo30 - diario":
+                         tp30D.addAll(listName.lista(result, nm.topo30Diario()));
+                         
+                         ddOcor.add(resume.resumo(tp30D, nm.topo30Diario(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                topo30D  = resume.resumo(tp30D, nm.topo30Diario(), h);
+                resultados.append(topo30D.toString() + "\n");
+                
+                break;
+                
+                 case "fundo diario":
+                         fdd.addAll(listName.lista(result, nm.fundoDiario()));
+                         
+                         ddOcor.add(resume.resumo(fdd, nm.fundoDiario(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                fundoD  = resume.resumo(fdd, nm.fundoDiario(), h);
+                resultados.append(fundoD.toString() + "\n");
+                
+                break;
+                
+                 case "topo diario":
+                         tpd.addAll(listName.lista(result, nm.topoDiario()));
+                         
+                         ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                topoD  = resume.resumo(tpd, nm.topoDiario(), h);
+                resultados.append(topoD.toString() + "\n");
+                
+                break;
+                     
+                 }
+                
                 break;
 
             case 9:
                 fim.addAll(horas.nove(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+             
+                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -985,34 +1630,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -1023,21 +1674,19 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 10:
                 fim.addAll(horas.dez(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
+             
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -1055,41 +1704,44 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tp30D, nm.topo30Diario(), h));
 
-                if(fdd.size() > 0){
                 ddOcor.add(resume.resumo(fdd, nm.fundoDiario(), h));
-                }else{
-                    System.out.println("zero objetos");
-                }
+
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -1100,21 +1752,19 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 11:
                 fim.addAll(horas.onze(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
+                
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -1136,39 +1786,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
-
-                    resultados.append("Todas as ocorrencias deste horario");
-                    for (Ocorrencias oc : fim) {
-                        resultados.append(oc.toString());
-                    }
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -1179,22 +1830,20 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 12:
                 fim.addAll(horas.doze(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+               
+              fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -1215,34 +1864,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -1253,21 +1908,19 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 13:
                 fim.addAll(horas.treze(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
+              
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -1289,34 +1942,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -1327,21 +1986,19 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 14:
                 fim.addAll(horas.quatorze(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
+              
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -1363,34 +2020,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -1401,22 +2064,19 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 15:
-
-                fim.addAll(horas.quinze(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
+fim.addAll(horas.quinze(result));
+                
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -1438,34 +2098,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -1476,23 +2142,19 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
-
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
                 break;
 
             case 16:
 
                 fim.addAll(horas.dezesseis(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -1513,34 +2175,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -1551,13 +2219,13 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
-
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
                 break;
 
             default:
@@ -1641,15 +2309,306 @@ public class Estatisticas extends javax.swing.JFrame {
         //mostrando dados na tela de texto
         switch (h) {
             case 1:
+                
+                
+                
+                 switch(nome.getSelectedItem().toString()){
+                     
+                     case "fundo30":
+                         fd30.addAll(listName.lista(result, nm.fundo30()));
+                         
+                         ddOcor.add(resume.resumo(fd30, nm.fundo30(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                fundo30  = resume.resumo(fd30, nm.fundo30(), h);
+                resultados.append(fundo30.toString() + "\n");
+                
+                break;
+                
+                 case "topo30":
+                         tp30.addAll(listName.lista(result, nm.topo30()));
+                         
+                         ddOcor.add(resume.resumo(tp30, nm.topo30(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                topo30  = resume.resumo(tp30, nm.topo30(), h);
+                resultados.append(topo30.toString() + "\n");
+                
+                break;
+                
+                 case "fundo30 - diario":
+                         fd30D.addAll(listName.lista(result, nm.fundo30Diario()));
+                         
+                         ddOcor.add(resume.resumo(fd30D, nm.fundo30Diario(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                fundo30D  = resume.resumo(fd30D, nm.fundo30Diario(), h);
+                resultados.append(fundo30D.toString() + "\n");
+                
+                break;
+                
+                 case "topo30 - diario":
+                         tp30D.addAll(listName.lista(result, nm.topo30Diario()));
+                         
+                         ddOcor.add(resume.resumo(tp30D, nm.topo30Diario(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                topo30D  = resume.resumo(tp30D, nm.topo30Diario(), h);
+                resultados.append(topo30D.toString() + "\n");
+                
+                break;
+                
+                 case "fundo diario":
+                         fdd.addAll(listName.lista(result, nm.fundoDiario()));
+                         
+                         ddOcor.add(resume.resumo(fdd, nm.fundoDiario(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                fundoD  = resume.resumo(fdd, nm.fundoDiario(), h);
+                resultados.append(fundoD.toString() + "\n");
+                
+                break;
+                
+                 case "topo diario":
+                         tpd.addAll(listName.lista(result, nm.topoDiario()));
+                         
+                         ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                topoD  = resume.resumo(tpd, nm.topoDiario(), h);
+                resultados.append(topoD.toString() + "\n");
+                
+                break;
+                     
+                 }
+                
                 break;
 
             case 9:
                 fim.addAll(horas.nove(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -1670,34 +2629,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -1708,22 +2673,18 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
-
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
                 break;
 
             case 10:
                 fim.addAll(horas.dez(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -1744,34 +2705,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -1782,22 +2749,18 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
-
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
                 break;
 
             case 11:
                 fim.addAll(horas.onze(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -1818,34 +2781,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -1856,21 +2825,17 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
-
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
                 break;
 
             case 12:
                 fim.addAll(horas.doze(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -1892,34 +2857,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -1930,22 +2901,18 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
-
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
                 break;
 
             case 13:
                 fim.addAll(horas.treze(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -1966,34 +2933,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -2004,22 +2977,19 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 14:
                 fim.addAll(horas.quatorze(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -2040,34 +3010,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -2078,23 +3054,20 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 15:
 
                 fim.addAll(horas.quinze(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -2115,34 +3088,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -2153,23 +3132,20 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 16:
 
                 fim.addAll(horas.dezesseis(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -2190,34 +3166,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -2228,12 +3210,13 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
@@ -2318,15 +3301,305 @@ public class Estatisticas extends javax.swing.JFrame {
         //mostrando dados na tela de texto
         switch (h) {
             case 1:
+                
+                
+                
+                 switch(nome.getSelectedItem().toString()){
+                     
+                     case "fundo30":
+                         fd30.addAll(listName.lista(result, nm.fundo30()));
+                         
+                         ddOcor.add(resume.resumo(fd30, nm.fundo30(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                fundo30  = resume.resumo(fd30, nm.fundo30(), h);
+                resultados.append(fundo30.toString() + "\n");
+                
+                break;
+                
+                 case "topo30":
+                         tp30.addAll(listName.lista(result, nm.topo30()));
+                         
+                         ddOcor.add(resume.resumo(tp30, nm.topo30(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                topo30  = resume.resumo(tp30, nm.topo30(), h);
+                resultados.append(topo30.toString() + "\n");
+                
+                break;
+                
+                 case "fundo30 - diario":
+                         fd30D.addAll(listName.lista(result, nm.fundo30Diario()));
+                         
+                         ddOcor.add(resume.resumo(fd30D, nm.fundo30Diario(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                fundo30D  = resume.resumo(fd30D, nm.fundo30Diario(), h);
+                resultados.append(fundo30D.toString() + "\n");
+                
+                break;
+                
+                 case "topo30 - diario":
+                         tp30D.addAll(listName.lista(result, nm.topo30Diario()));
+                         
+                         ddOcor.add(resume.resumo(tp30D, nm.topo30Diario(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                topo30D  = resume.resumo(tp30D, nm.topo30Diario(), h);
+                resultados.append(topo30D.toString() + "\n");
+                
+                break;
+                
+                 case "fundo diario":
+                         fdd.addAll(listName.lista(result, nm.fundoDiario()));
+                         
+                         ddOcor.add(resume.resumo(fdd, nm.fundoDiario(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                fundoD  = resume.resumo(fdd, nm.fundoDiario(), h);
+                resultados.append(fundoD.toString() + "\n");
+                
+                break;
+                
+                 case "topo diario":
+                         tpd.addAll(listName.lista(result, nm.topoDiario()));
+                         
+                         ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                topoD  = resume.resumo(tpd, nm.topoDiario(), h);
+                resultados.append(topoD.toString() + "\n");
+                
+                break;
+                     
+                 }
                 break;
 
             case 9:
                 fim.addAll(horas.nove(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -2347,34 +3620,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -2385,22 +3664,19 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 10:
                 fim.addAll(horas.dez(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -2421,34 +3697,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -2459,22 +3741,19 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 11:
                 fim.addAll(horas.onze(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -2495,34 +3774,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -2533,22 +3818,19 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 12:
                 fim.addAll(horas.doze(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -2569,34 +3851,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -2607,22 +3895,19 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 13:
                 fim.addAll(horas.treze(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -2643,34 +3928,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -2681,22 +3972,19 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 14:
                 fim.addAll(horas.quatorze(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -2717,34 +4005,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -2755,23 +4049,19 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
-
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
                 break;
 
             case 15:
 
                 fim.addAll(horas.quinze(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -2792,31 +4082,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
+             
 
                 ddOcor.clear();
 
@@ -2827,23 +4126,20 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 16:
 
                 fim.addAll(horas.dezesseis(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -2864,34 +4160,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -2902,12 +4204,13 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
@@ -2992,15 +4295,305 @@ public class Estatisticas extends javax.swing.JFrame {
         //mostrando dados na tela de texto
         switch (h) {
             case 1:
+                
+                
+                
+                 switch(nome.getSelectedItem().toString()){
+                     
+                     case "fundo30":
+                         fd30.addAll(listName.lista(result, nm.fundo30()));
+                         
+                         ddOcor.add(resume.resumo(fd30, nm.fundo30(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                fundo30  = resume.resumo(fd30, nm.fundo30(), h);
+                resultados.append(fundo30.toString() + "\n");
+                
+                break;
+                
+                 case "topo30":
+                         tp30.addAll(listName.lista(result, nm.topo30()));
+                         
+                         ddOcor.add(resume.resumo(tp30, nm.topo30(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                topo30  = resume.resumo(tp30, nm.topo30(), h);
+                resultados.append(topo30.toString() + "\n");
+                
+                break;
+                
+                 case "fundo30 - diario":
+                         fd30D.addAll(listName.lista(result, nm.fundo30Diario()));
+                         
+                         ddOcor.add(resume.resumo(fd30D, nm.fundo30Diario(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                fundo30D  = resume.resumo(fd30D, nm.fundo30Diario(), h);
+                resultados.append(fundo30D.toString() + "\n");
+                
+                break;
+                
+                 case "topo30 - diario":
+                         tp30D.addAll(listName.lista(result, nm.topo30Diario()));
+                         
+                         ddOcor.add(resume.resumo(tp30D, nm.topo30Diario(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                topo30D  = resume.resumo(tp30D, nm.topo30Diario(), h);
+                resultados.append(topo30D.toString() + "\n");
+                
+                break;
+                
+                 case "fundo diario":
+                         fdd.addAll(listName.lista(result, nm.fundoDiario()));
+                         
+                         ddOcor.add(resume.resumo(fdd, nm.fundoDiario(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                fundoD  = resume.resumo(fdd, nm.fundoDiario(), h);
+                resultados.append(fundoD.toString() + "\n");
+                
+                break;
+                
+                 case "topo diario":
+                         tpd.addAll(listName.lista(result, nm.topoDiario()));
+                         
+                         ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
+                         
+                         QTD = relevante.maiorQTD(ddOcor);
+
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
+                ddp = relevante.pior(ddOcor);
+                melhor = "MELHOR OCÔRRENCIA \n";
+                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                pior = "PIOR OCÔRRENCIA \n";
+
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
+                resultados.append(melhor + dd.toString());
+                }
+                
+                if (dst == null) {
+                    resultados.append(destaque + "------------------------------- \n");
+                } else {
+                    resultados.append(destaque + dst.toString());
+                }
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
+                resultados.append(pior + ddp.toString());
+                }
+
+                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+                
+                
+             
+
+                ddOcor.clear();
+                
+                
+                topoD  = resume.resumo(tpd, nm.topoDiario(), h);
+                resultados.append(topoD.toString() + "\n");
+                
+                break;
+                     
+                 }
                 break;
 
             case 9:
                 fim.addAll(horas.nove(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -3021,34 +4614,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -3059,22 +4658,19 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 10:
                 fim.addAll(horas.dez(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -3095,34 +4691,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -3133,22 +4735,19 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 11:
                 fim.addAll(horas.onze(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -3169,34 +4768,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -3207,22 +4812,19 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 12:
                 fim.addAll(horas.doze(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -3243,34 +4845,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -3281,22 +4889,19 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 13:
                 fim.addAll(horas.treze(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -3317,34 +4922,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -3355,22 +4966,19 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 14:
                 fim.addAll(horas.quatorze(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -3391,34 +4999,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -3429,23 +5043,20 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 15:
 
                 fim.addAll(horas.quinze(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -3466,34 +5077,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -3504,23 +5121,20 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
             case 16:
 
                 fim.addAll(horas.dezesseis(result));
-                System.out.println("conferindo o 'fim'".toUpperCase());
-                for (Ocorrencias oc : fim) {
-                    System.out.println(oc.toString());
-                }
-                fd30.addAll(listName.lista(fim, nm.fundo30()));
+                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -3541,34 +5155,40 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                System.out.println("chegou no for de ddOcor".toUpperCase());
-                for (DadosOcorrencia oc : ddOcor) {
-                    System.out.println(oc.toString());
-                }
+             
 
                 QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(QTD);
-                qtdDestaque.addAll(guardado.lista);
-                dst = relevante.destaque(qtdDestaque);
+                dd = relevante.melhor(ddOcor);
+                
+                dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
+                            if(dd == null){
+                                resultados.append(melhor + "------------------------------- \n");
+                 
+                }else{
+                    
                 resultados.append(melhor + dd.toString());
+                }
+                
                 if (dst == null) {
-                    resultados.append(destaque + "----------------------------" + "\n");
+                    resultados.append(destaque + "------------------------------- \n");
                 } else {
                     resultados.append(destaque + dst.toString());
                 }
-
+                if(ddp == null){
+                resultados.append(pior + "------------------------------- \n");
+                }else{
+                
                 resultados.append(pior + ddp.toString());
+                }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
+             
 
                 ddOcor.clear();
 
@@ -3579,12 +5199,13 @@ public class Estatisticas extends javax.swing.JFrame {
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
                 topoD = resume.resumo(tpd, nm.topo30Diario(), h);
 
-                resultados.append("*--------------------");
-                resultados.append(fundo30.toString());
-                resultados.append(topo30.toString());
-                resultados.append(fundo30D.toString());
-                resultados.append(topo30D.toString());
-                resultados.append(topoD.toString());
+                resultados.append("*--------------------* \n");
+                resultados.append(fundo30.toString() + "\n");
+                resultados.append(topo30.toString() + "\n");
+                resultados.append(fundo30D.toString() + "\n");
+                resultados.append(topo30D.toString() + "\n");
+                resultados.append(fundoD.toString() + "\n");
+                resultados.append(topoD.toString() + "\n");
 
                 break;
 
@@ -3664,9 +5285,32 @@ public class Estatisticas extends javax.swing.JFrame {
 
     }//GEN-LAST:event_gerarActionPerformed
 
+    private void salvarDocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarDocumentoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_salvarDocumentoActionPerformed
+
     /**
      * @param args the command line arguments
      */
+    
+    private void salvarArquivo() {
+
+    
+   JFileChooser fileChooser = new JFileChooser();
+    
+    int result = fileChooser.showSaveDialog(this);
+    
+    if (result == JFileChooser.APPROVE_OPTION) {
+        File file = fileChooser.getSelectedFile();
+        
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            writer.write(resultados.getText());
+            JOptionPane.showMessageDialog(null, "Arquivo salvo com sucesso!");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao salvar o arquivo: " + e.getMessage());
+        }
+    }
+}
     private String names() {
         String name = nome.getSelectedItem().toString();
         return name;
@@ -3720,11 +5364,13 @@ public class Estatisticas extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton gerar;
     private javax.swing.JComboBox<String> horario;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JCheckBox mes;
     private javax.swing.JComboBox<String> nome;
     private javax.swing.JTextArea resultados;
+    private javax.swing.JButton salvarDocumento;
     private javax.swing.JCheckBox seis_meses;
     private javax.swing.JCheckBox semana;
     private javax.swing.JTable tabela;
