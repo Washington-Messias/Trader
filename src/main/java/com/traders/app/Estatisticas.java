@@ -11,7 +11,6 @@ import com.traders.models.Ocorrencias;
 import com.traders.models.DadosOcorrencia;
 import com.traders.utilidades.ConfigurandoNomeParaDB;
 
-
 import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.swing.table.DefaultTableModel;
@@ -31,8 +30,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.rtf.RTFEditorKit;
 
 /**
  *
@@ -241,7 +245,7 @@ public class Estatisticas extends javax.swing.JFrame {
     ManipulandoHora horas = new ManipulandoHora();
     FiltroResultado filtro = new FiltroResultado();
     ModeloResumo resume = new ModeloResumo();
-    
+
     ConsultarDB consulta = new ConsultarDB();
 
     private void consultaSemana() {
@@ -258,7 +262,7 @@ public class Estatisticas extends javax.swing.JFrame {
         DadosOcorrencia ddp = new DadosOcorrencia();
         RetornandoNome nm = new RetornandoNome();
         ListaDeNomes listName = new ListaDeNomes();
-       
+
         Relevancia relevante = new Relevancia();
         Set<DadosOcorrencia> ddOcor = new LinkedHashSet<DadosOcorrencia>();
         Set<DadosOcorrencia> QTD = new LinkedHashSet<DadosOcorrencia>();
@@ -296,7 +300,7 @@ public class Estatisticas extends javax.swing.JFrame {
         int h = hrs.resultados(horarios());
         //inserindo dados na tabela
         for (Ocorrencias oc : result) {
-        
+
             if (registros.contains(oc.get_Id()) == true) {
 
             } else {
@@ -307,7 +311,7 @@ public class Estatisticas extends javax.swing.JFrame {
 
             }
             registros.add(oc);
-          
+
         }
         /*
             *TODO necessario alterar dentro da condição h == 1 o nome do resultado que deve ser conforme 
@@ -317,305 +321,279 @@ public class Estatisticas extends javax.swing.JFrame {
         //mostrando dados na tela de texto
         switch (h) {
             case 1:
-            
-                
-                
-                 switch(nome.getSelectedItem().toString()){
-                     
-                     case "fundo30":
-                         fd30.addAll(listName.lista(result, nm.fundo30()));
-                         
-                         ddOcor.add(resume.resumo(fd30, nm.fundo30(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
+                switch (nome.getSelectedItem().toString()) {
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                    case "fundo30":
+                        fd30.addAll(listName.lista(result, nm.fundo30()));
+
+                        ddOcor.add(resume.resumo(fd30, nm.fundo30(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        fundo30 = resume.resumo(fd30, nm.fundo30(), h);
+                        resultados.append(fundo30.toString() + "\n\n");
+
+                        break;
+
+                    case "topo30":
+                        tp30.addAll(listName.lista(result, nm.topo30()));
+
+                        ddOcor.add(resume.resumo(tp30, nm.topo30(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        topo30 = resume.resumo(tp30, nm.topo30(), h);
+                        resultados.append(topo30.toString() + "\n\n");
+
+                        break;
+
+                    case "fundo30 - diario":
+                        fd30D.addAll(listName.lista(result, nm.fundo30Diario()));
+
+                        ddOcor.add(resume.resumo(fd30D, nm.fundo30Diario(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        fundo30D = resume.resumo(fd30D, nm.fundo30Diario(), h);
+                        resultados.append(fundo30D.toString() + "\n");
+
+                        break;
+
+                    case "topo30 - diario":
+                        tp30D.addAll(listName.lista(result, nm.topo30Diario()));
+
+                        ddOcor.add(resume.resumo(tp30D, nm.topo30Diario(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        topo30D = resume.resumo(tp30D, nm.topo30Diario(), h);
+                        resultados.append(topo30D.toString() + "\n");
+
+                        break;
+
+                    case "fundo diario":
+                        fdd.addAll(listName.lista(result, nm.fundoDiario()));
+
+                        ddOcor.add(resume.resumo(fdd, nm.fundoDiario(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
+                        resultados.append(fundoD.toString() + "\n");
+
+                        break;
+
+                    case "topo diario":
+                        tpd.addAll(listName.lista(result, nm.topoDiario()));
+
+                        ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        topoD = resume.resumo(tpd, nm.topoDiario(), h);
+                        resultados.append(topoD.toString() + "\n");
+
+                        break;
+
                 }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
-
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
-
-                ddOcor.clear();
-                
-                
-                fundo30  = resume.resumo(fd30, nm.fundo30(), h);
-                resultados.append(fundo30.toString() + "\n");
-                
-                break;
-                
-                 case "topo30":
-                         tp30.addAll(listName.lista(result, nm.topo30()));
-                         
-                         ddOcor.add(resume.resumo(tp30, nm.topo30(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
-
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
-
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
-
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
-
-                ddOcor.clear();
-                
-                
-                topo30  = resume.resumo(tp30, nm.topo30(), h);
-                resultados.append(topo30.toString() + "\n");
-                
-                break;
-                
-                 case "fundo30 - diario":
-                         fd30D.addAll(listName.lista(result, nm.fundo30Diario()));
-                         
-                         ddOcor.add(resume.resumo(fd30D, nm.fundo30Diario(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
-
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
-
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
-
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
-
-                ddOcor.clear();
-                
-                
-                fundo30D  = resume.resumo(fd30D, nm.fundo30Diario(), h);
-                resultados.append(fundo30D.toString() + "\n");
-                
-                break;
-                
-                 case "topo30 - diario":
-                         tp30D.addAll(listName.lista(result, nm.topo30Diario()));
-                         
-                         ddOcor.add(resume.resumo(tp30D, nm.topo30Diario(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
-
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
-
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
-
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
-
-                ddOcor.clear();
-                
-                
-                topo30D  = resume.resumo(tp30D, nm.topo30Diario(), h);
-                resultados.append(topo30D.toString() + "\n");
-                
-                break;
-                
-                 case "fundo diario":
-                         fdd.addAll(listName.lista(result, nm.fundoDiario()));
-                         
-                         ddOcor.add(resume.resumo(fdd, nm.fundoDiario(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
-
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
-
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
-
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
-
-                ddOcor.clear();
-                
-                
-                fundoD  = resume.resumo(fdd, nm.fundoDiario(), h);
-                resultados.append(fundoD.toString() + "\n");
-                
-                break;
-                
-                 case "topo diario":
-                         tpd.addAll(listName.lista(result, nm.topoDiario()));
-                         
-                         ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
-
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
-
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
-
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
-
-                ddOcor.clear();
-                
-                
-                topoD  = resume.resumo(tpd, nm.topoDiario(), h);
-                resultados.append(topoD.toString() + "\n");
-                
-                break;
-                     
-                 }
                 break;
 
             case 9:
                 fim.addAll(horas.nove(result));
-               
+
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -637,39 +615,36 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-              
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
-                
-                if(dd == null){
-                
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+
+                if (dd == null) {
+                    resultados.append(melhor + "----------------------------" + "\n");
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "----------------------------" + "\n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+resultados.append(pior + "----------------------------" + "\n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-               
 
                 ddOcor.clear();
 
@@ -691,7 +666,7 @@ public class Estatisticas extends javax.swing.JFrame {
 
             case 10:
                 fim.addAll(horas.dez(result));
-              
+
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -714,39 +689,37 @@ public class Estatisticas extends javax.swing.JFrame {
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
                 System.out.println("chegou no for de ddOcor".toUpperCase());
-              
 
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                  if(dd == null){
-                
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+resultados.append(melhor + "----------------------------" + "\n");
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "----------------------------" + "\n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+resultados.append(pior + "----------------------------" + "\n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() +  "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -768,7 +741,7 @@ public class Estatisticas extends javax.swing.JFrame {
 
             case 11:
                 fim.addAll(horas.onze(result));
-               
+
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -790,40 +763,37 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-               
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                 if(dd == null){
-                
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                     resultados.append(melhor + "----------------------------" + "\n");
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "----------------------------" + "\n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                     resultados.append(pior + "----------------------------" + "\n");
+                } else {
+
+                    resultados.append(pior+ ddp.toString() + "\n");
                 }
-                resultados.append(pior + ddp.toString());
+               
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-              
 
                 ddOcor.clear();
 
@@ -845,7 +815,7 @@ public class Estatisticas extends javax.swing.JFrame {
 
             case 12:
                 fim.addAll(horas.doze(result));
-                
+
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -867,39 +837,36 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-                
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-               if(dd == null){
-                
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                     resultados.append(melhor + "----------------------------" + "\n");
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "----------------------------" + "\n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                     resultados.append(pior + "----------------------------" + "\n");
+                } else {
+
+                    resultados.append(pior + ddp.toString());
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-               
 
                 ddOcor.clear();
 
@@ -921,7 +888,7 @@ public class Estatisticas extends javax.swing.JFrame {
 
             case 13:
                 fim.addAll(horas.treze(result));
-             
+
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -943,38 +910,36 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-         
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                if(dd == null){
-                
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                     resultados.append(melhor + "----------------------------" + "\n");
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "----------------------------" + "\n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                     resultados.append(pior + "----------------------------" + "\n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-               
 
                 ddOcor.clear();
 
@@ -996,7 +961,7 @@ public class Estatisticas extends javax.swing.JFrame {
 
             case 14:
                 fim.addAll(horas.quatorze(result));
-             
+
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -1018,39 +983,36 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-             if(dd == null){
-                
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                     resultados.append(melhor + "----------------------------" + "\n");
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "----------------------------" + "\n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                     resultados.append(pior + "----------------------------" + "\n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-              
 
                 ddOcor.clear();
 
@@ -1073,7 +1035,7 @@ public class Estatisticas extends javax.swing.JFrame {
             case 15:
 
                 fim.addAll(horas.quinze(result));
-               
+
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -1095,43 +1057,37 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-              
-
                 QTD = relevante.maiorQTD(ddOcor);
-                
-              
+
                 dd = relevante.melhor(ddOcor);
-              
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-             if(dd == null){
-                
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                     resultados.append(melhor + "----------------------------" + "\n");
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "----------------------------" + "\n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                     resultados.append(pior + "----------------------------" + "\n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-                for (Ocorrencias oc : fim) {
-                    resultados.append(oc.toString() + "\n");
-                }
-
+               
                 ddOcor.clear();
 
                 fundo30 = resume.resumo(fd30, nm.fundo30(), h);
@@ -1153,7 +1109,7 @@ public class Estatisticas extends javax.swing.JFrame {
             case 16:
 
                 fim.addAll(horas.dezesseis(result));
-             
+
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -1175,39 +1131,36 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                 if(dd == null){
-                
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                     resultados.append(melhor + "----------------------------" + "\n");
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "----------------------------" + "\n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                     resultados.append(pior + "----------------------------" + "\n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-           
 
                 ddOcor.clear();
 
@@ -1248,7 +1201,7 @@ public class Estatisticas extends javax.swing.JFrame {
         DadosOcorrencia ddp = new DadosOcorrencia();
         RetornandoNome nm = new RetornandoNome();
         ListaDeNomes listName = new ListaDeNomes();
-        
+
         Relevancia relevante = new Relevancia();
         Set<DadosOcorrencia> ddOcor = new LinkedHashSet<DadosOcorrencia>();
         Set<DadosOcorrencia> QTD = new LinkedHashSet<DadosOcorrencia>();
@@ -1286,7 +1239,7 @@ public class Estatisticas extends javax.swing.JFrame {
         int h = hrs.resultados(horarios());
         //inserindo dados na tabela
         for (Ocorrencias oc : result) {
-            System.out.println(oc.toString());
+           
             if (registros.contains(oc.get_Id()) == true) {
 
             } else {
@@ -1298,7 +1251,6 @@ public class Estatisticas extends javax.swing.JFrame {
             }
             registros.add(oc);
 
-          
         }
         /*
             *TODO necessario alterar dentro da condição h == 1 o nome do resultado que deve ser conforme 
@@ -1308,308 +1260,281 @@ public class Estatisticas extends javax.swing.JFrame {
         //mostrando dados na tela de texto
         switch (h) {
             case 1:
-                
-                
-                
-                
-                 switch(nome.getSelectedItem().toString()){
-                     
-                     case "fundo30":
-                         fd30.addAll(listName.lista(result, nm.fundo30()));
-                         
-                         ddOcor.add(resume.resumo(fd30, nm.fundo30(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
+                switch (nome.getSelectedItem().toString()) {
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
+                    case "fundo30":
+                        fd30.addAll(listName.lista(result, nm.fundo30()));
 
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
+                        ddOcor.add(resume.resumo(fd30, nm.fundo30(), h));
 
-                ddOcor.clear();
-                
-                
-                fundo30  = resume.resumo(fd30, nm.fundo30(), h);
-                resultados.append(fundo30.toString() + "\n");
-                
-                break;
-                
-                 case "topo30":
-                         tp30.addAll(listName.lista(result, nm.topo30()));
-                         
-                         ddOcor.add(resume.resumo(tp30, nm.topo30(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
+                        QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
+                        dd = relevante.melhor(ddOcor);
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
 
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
 
-                ddOcor.clear();
-                
-                
-                topo30  = resume.resumo(tp30, nm.topo30(), h);
-                resultados.append(topo30.toString() + "\n");
-                
-                break;
-                
-                 case "fundo30 - diario":
-                         fd30D.addAll(listName.lista(result, nm.fundo30Diario()));
-                         
-                         ddOcor.add(resume.resumo(fd30D, nm.fundo30Diario(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
+                        } else {
 
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
 
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
 
-                ddOcor.clear();
-                
-                
-                fundo30D  = resume.resumo(fd30D, nm.fundo30Diario(), h);
-                resultados.append(fundo30D.toString() + "\n");
-                
-                break;
-                
-                 case "topo30 - diario":
-                         tp30D.addAll(listName.lista(result, nm.topo30Diario()));
-                         
-                         ddOcor.add(resume.resumo(tp30D, nm.topo30Diario(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
 
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
+                        ddOcor.clear();
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
+                        fundo30 = resume.resumo(fd30, nm.fundo30(), h);
+                        resultados.append(fundo30.toString() + "\n");
 
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
+                        break;
 
-                ddOcor.clear();
-                
-                
-                topo30D  = resume.resumo(tp30D, nm.topo30Diario(), h);
-                resultados.append(topo30D.toString() + "\n");
-                
-                break;
-                
-                 case "fundo diario":
-                         fdd.addAll(listName.lista(result, nm.fundoDiario()));
-                         
-                         ddOcor.add(resume.resumo(fdd, nm.fundoDiario(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
+                    case "topo30":
+                        tp30.addAll(listName.lista(result, nm.topo30()));
 
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
+                        ddOcor.add(resume.resumo(tp30, nm.topo30(), h));
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
+                        QTD = relevante.maiorQTD(ddOcor);
 
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
+                        dd = relevante.melhor(ddOcor);
 
-                ddOcor.clear();
-                
-                
-                fundoD  = resume.resumo(fdd, nm.fundoDiario(), h);
-                resultados.append(fundoD.toString() + "\n");
-                
-                break;
-                
-                 case "topo diario":
-                         tpd.addAll(listName.lista(result, nm.topoDiario()));
-                         
-                         ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
 
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        topo30 = resume.resumo(tp30, nm.topo30(), h);
+                        resultados.append(topo30.toString() + "\n");
+
+                        break;
+
+                    case "fundo30 - diario":
+                        fd30D.addAll(listName.lista(result, nm.fundo30Diario()));
+
+                        ddOcor.add(resume.resumo(fd30D, nm.fundo30Diario(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        fundo30D = resume.resumo(fd30D, nm.fundo30Diario(), h);
+                        resultados.append(fundo30D.toString() + "\n");
+
+                        break;
+
+                    case "topo30 - diario":
+                        tp30D.addAll(listName.lista(result, nm.topo30Diario()));
+
+                        ddOcor.add(resume.resumo(tp30D, nm.topo30Diario(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        topo30D = resume.resumo(tp30D, nm.topo30Diario(), h);
+                        resultados.append(topo30D.toString() + "\n");
+
+                        break;
+
+                    case "fundo diario":
+                        fdd.addAll(listName.lista(result, nm.fundoDiario()));
+
+                        ddOcor.add(resume.resumo(fdd, nm.fundoDiario(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
+                        resultados.append(fundoD.toString() + "\n");
+
+                        break;
+
+                    case "topo diario":
+                        tpd.addAll(listName.lista(result, nm.topoDiario()));
+
+                        ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        topoD = resume.resumo(tpd, nm.topoDiario(), h);
+                        resultados.append(topoD.toString() + "\n");
+
+                        break;
+
                 }
 
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
-
-                ddOcor.clear();
-                
-                
-                topoD  = resume.resumo(tpd, nm.topoDiario(), h);
-                resultados.append(topoD.toString() + "\n");
-                
-                break;
-                     
-                 }
-                
                 break;
 
             case 9:
                 fim.addAll(horas.nove(result));
-             
-                 fd30.addAll(listName.lista(fim, nm.fundo30()));
+
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -1630,40 +1555,37 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -1686,7 +1608,7 @@ public class Estatisticas extends javax.swing.JFrame {
 
             case 10:
                 fim.addAll(horas.dez(result));
-             
+
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -1708,40 +1630,37 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -1764,7 +1683,7 @@ public class Estatisticas extends javax.swing.JFrame {
 
             case 11:
                 fim.addAll(horas.onze(result));
-                
+
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -1786,40 +1705,37 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -1842,8 +1758,8 @@ public class Estatisticas extends javax.swing.JFrame {
 
             case 12:
                 fim.addAll(horas.doze(result));
-               
-              fd30.addAll(listName.lista(fim, nm.fundo30()));
+
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -1864,40 +1780,37 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -1920,7 +1833,7 @@ public class Estatisticas extends javax.swing.JFrame {
 
             case 13:
                 fim.addAll(horas.treze(result));
-              
+
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -1942,40 +1855,37 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -1998,7 +1908,7 @@ public class Estatisticas extends javax.swing.JFrame {
 
             case 14:
                 fim.addAll(horas.quatorze(result));
-              
+
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -2020,40 +1930,37 @@ public class Estatisticas extends javax.swing.JFrame {
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -2075,8 +1982,8 @@ public class Estatisticas extends javax.swing.JFrame {
                 break;
 
             case 15:
-fim.addAll(horas.quinze(result));
-                
+                fim.addAll(horas.quinze(result));
+
                 fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
@@ -2098,40 +2005,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -2154,7 +2058,7 @@ fim.addAll(horas.quinze(result));
             case 16:
 
                 fim.addAll(horas.dezesseis(result));
-                 fd30.addAll(listName.lista(fim, nm.fundo30()));
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -2175,40 +2079,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -2287,8 +2188,8 @@ fim.addAll(horas.quinze(result));
         int h = hrs.resultados(horarios());
         //inserindo dados na tabela
         for (Ocorrencias oc : result) {
-            System.out.println(oc.toString());
-            if (registros.contains(oc) == true) {
+           
+            if (registros.contains(oc.get_Id()) == true) {
 
             } else {
 
@@ -2298,8 +2199,7 @@ fim.addAll(horas.quinze(result));
 
             }
             registros.add(oc);
-            System.out.println("Conferindo o tamanho do observador" + "\n");
-            System.out.println(registros.size());
+        
         }
         /*
             *TODO necessario alterar dentro da condição h == 1 o nome do resultado que deve ser conforme 
@@ -2309,313 +2209,287 @@ fim.addAll(horas.quinze(result));
         //mostrando dados na tela de texto
         switch (h) {
             case 1:
-                
-                
-                
-                 switch(nome.getSelectedItem().toString()){
-                     
-                     case "fundo30":
-                         fd30.addAll(listName.lista(result, nm.fundo30()));
-                         
-                         ddOcor.add(resume.resumo(fd30, nm.fundo30(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
+                switch (nome.getSelectedItem().toString()) {
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
+                    case "fundo30":
+                        fd30.addAll(listName.lista(result, nm.fundo30()));
 
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
+                        ddOcor.add(resume.resumo(fd30, nm.fundo30(), h));
 
-                ddOcor.clear();
-                
-                
-                fundo30  = resume.resumo(fd30, nm.fundo30(), h);
-                resultados.append(fundo30.toString() + "\n");
-                
-                break;
-                
-                 case "topo30":
-                         tp30.addAll(listName.lista(result, nm.topo30()));
-                         
-                         ddOcor.add(resume.resumo(tp30, nm.topo30(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
+                        QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
+                        dd = relevante.melhor(ddOcor);
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
 
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
 
-                ddOcor.clear();
-                
-                
-                topo30  = resume.resumo(tp30, nm.topo30(), h);
-                resultados.append(topo30.toString() + "\n");
-                
-                break;
-                
-                 case "fundo30 - diario":
-                         fd30D.addAll(listName.lista(result, nm.fundo30Diario()));
-                         
-                         ddOcor.add(resume.resumo(fd30D, nm.fundo30Diario(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
+                        } else {
 
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
 
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
 
-                ddOcor.clear();
-                
-                
-                fundo30D  = resume.resumo(fd30D, nm.fundo30Diario(), h);
-                resultados.append(fundo30D.toString() + "\n");
-                
-                break;
-                
-                 case "topo30 - diario":
-                         tp30D.addAll(listName.lista(result, nm.topo30Diario()));
-                         
-                         ddOcor.add(resume.resumo(tp30D, nm.topo30Diario(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
 
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
+                        ddOcor.clear();
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
+                        fundo30 = resume.resumo(fd30, nm.fundo30(), h);
+                        resultados.append(fundo30.toString() + "\n");
 
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
+                        break;
 
-                ddOcor.clear();
-                
-                
-                topo30D  = resume.resumo(tp30D, nm.topo30Diario(), h);
-                resultados.append(topo30D.toString() + "\n");
-                
-                break;
-                
-                 case "fundo diario":
-                         fdd.addAll(listName.lista(result, nm.fundoDiario()));
-                         
-                         ddOcor.add(resume.resumo(fdd, nm.fundoDiario(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
+                    case "topo30":
+                        tp30.addAll(listName.lista(result, nm.topo30()));
 
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
+                        ddOcor.add(resume.resumo(tp30, nm.topo30(), h));
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
+                        QTD = relevante.maiorQTD(ddOcor);
 
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
+                        dd = relevante.melhor(ddOcor);
 
-                ddOcor.clear();
-                
-                
-                fundoD  = resume.resumo(fdd, nm.fundoDiario(), h);
-                resultados.append(fundoD.toString() + "\n");
-                
-                break;
-                
-                 case "topo diario":
-                         tpd.addAll(listName.lista(result, nm.topoDiario()));
-                         
-                         ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
 
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        topo30 = resume.resumo(tp30, nm.topo30(), h);
+                        resultados.append(topo30.toString() + "\n");
+
+                        break;
+
+                    case "fundo30 - diario":
+                        fd30D.addAll(listName.lista(result, nm.fundo30Diario()));
+
+                        ddOcor.add(resume.resumo(fd30D, nm.fundo30Diario(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        fundo30D = resume.resumo(fd30D, nm.fundo30Diario(), h);
+                        resultados.append(fundo30D.toString() + "\n");
+
+                        break;
+
+                    case "topo30 - diario":
+                        tp30D.addAll(listName.lista(result, nm.topo30Diario()));
+
+                        ddOcor.add(resume.resumo(tp30D, nm.topo30Diario(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        topo30D = resume.resumo(tp30D, nm.topo30Diario(), h);
+                        resultados.append(topo30D.toString() + "\n");
+
+                        break;
+
+                    case "fundo diario":
+                        fdd.addAll(listName.lista(result, nm.fundoDiario()));
+
+                        ddOcor.add(resume.resumo(fdd, nm.fundoDiario(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
+                        resultados.append(fundoD.toString() + "\n");
+
+                        break;
+
+                    case "topo diario":
+                        tpd.addAll(listName.lista(result, nm.topoDiario()));
+
+                        ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        topoD = resume.resumo(tpd, nm.topoDiario(), h);
+                        resultados.append(topoD.toString() + "\n");
+
+                        break;
+
                 }
 
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
-
-                ddOcor.clear();
-                
-                
-                topoD  = resume.resumo(tpd, nm.topoDiario(), h);
-                resultados.append(topoD.toString() + "\n");
-                
-                break;
-                     
-                 }
-                
                 break;
 
             case 9:
                 fim.addAll(horas.nove(result));
-                 fd30.addAll(listName.lista(fim, nm.fundo30()));
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
                 tp30D.addAll(listName.lista(fim, nm.topo30Diario()));
                 fdd.addAll(listName.lista(fim, nm.fundoDiario()));
                 tpd.addAll(listName.lista(fim, nm.topoDiario()));
-                //certo.addAll(acer.maxAcertos(fd30, tp30, fd30D, tp30D, fdd, tpd));
+                
 
                 ddOcor.add(resume.resumo(fd30, nm.fundo30(), h));
 
@@ -2629,40 +2503,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -2684,7 +2555,7 @@ fim.addAll(horas.quinze(result));
 
             case 10:
                 fim.addAll(horas.dez(result));
-                 fd30.addAll(listName.lista(fim, nm.fundo30()));
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -2705,40 +2576,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -2760,14 +2628,14 @@ fim.addAll(horas.quinze(result));
 
             case 11:
                 fim.addAll(horas.onze(result));
-                 fd30.addAll(listName.lista(fim, nm.fundo30()));
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
                 tp30D.addAll(listName.lista(fim, nm.topo30Diario()));
                 fdd.addAll(listName.lista(fim, nm.fundoDiario()));
                 tpd.addAll(listName.lista(fim, nm.topoDiario()));
-                //certo.addAll(acer.maxAcertos(fd30, tp30, fd30D, tp30D, fdd, tpd));
+             
 
                 ddOcor.add(resume.resumo(fd30, nm.fundo30(), h));
 
@@ -2781,40 +2649,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -2857,40 +2722,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -2912,7 +2774,7 @@ fim.addAll(horas.quinze(result));
 
             case 13:
                 fim.addAll(horas.treze(result));
-                 fd30.addAll(listName.lista(fim, nm.fundo30()));
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -2933,40 +2795,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -2989,7 +2848,7 @@ fim.addAll(horas.quinze(result));
 
             case 14:
                 fim.addAll(horas.quatorze(result));
-                 fd30.addAll(listName.lista(fim, nm.fundo30()));
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -3010,40 +2869,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -3067,7 +2923,7 @@ fim.addAll(horas.quinze(result));
             case 15:
 
                 fim.addAll(horas.quinze(result));
-                 fd30.addAll(listName.lista(fim, nm.fundo30()));
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -3088,40 +2944,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -3145,7 +2998,7 @@ fim.addAll(horas.quinze(result));
             case 16:
 
                 fim.addAll(horas.dezesseis(result));
-                 fd30.addAll(listName.lista(fim, nm.fundo30()));
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -3166,40 +3019,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -3257,16 +3107,7 @@ fim.addAll(horas.quinze(result));
         DefaultTableModel model = (DefaultTableModel) tabela.getModel();
         Object[] columNames = {"id", "nome", "acerto", "ranger", "ponto", "hora", "data"};
         model.setColumnIdentifiers(columNames);
-        /*  Acertos acerto = new Acertos();
-        Erros erro = new Erros();
-        Total total = new Total();
-        int acertos = 0;
-        int erros = 0;
-        double totale = 0;
-        String ac;
-        String er;
-        String tl;
-         */
+       
         String resumo;
 
         String melhor = "MELHOR OCÔRRENCIA \n";
@@ -3279,8 +3120,8 @@ fim.addAll(horas.quinze(result));
         int h = hrs.resultados(horarios());
         //inserindo dados na tabela
         for (Ocorrencias oc : result) {
-            System.out.println(oc.toString());
-            if (registros.contains(oc) == true) {
+            
+            if (registros.contains(oc.get_Id()) == true) {
 
             } else {
 
@@ -3290,316 +3131,284 @@ fim.addAll(horas.quinze(result));
 
             }
             registros.add(oc);
-            System.out.println("Conferindo o tamanho do observador" + "\n");
-            System.out.println(registros.size());
+           
         }
-        /*
-            *TODO necessario alterar dentro da condição h == 1 o nome do resultado que deve ser conforme 
-            * o nome da ocorrencia.
-         */
-
-        //mostrando dados na tela de texto
+       
         switch (h) {
             case 1:
-                
-                
-                
-                 switch(nome.getSelectedItem().toString()){
-                     
-                     case "fundo30":
-                         fd30.addAll(listName.lista(result, nm.fundo30()));
-                         
-                         ddOcor.add(resume.resumo(fd30, nm.fundo30(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
+                switch (nome.getSelectedItem().toString()) {
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                    case "fundo30":
+                        fd30.addAll(listName.lista(result, nm.fundo30()));
+
+                        ddOcor.add(resume.resumo(fd30, nm.fundo30(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        fundo30 = resume.resumo(fd30, nm.fundo30(), h);
+                        resultados.append(fundo30.toString() + "\n");
+
+                        break;
+
+                    case "topo30":
+                        tp30.addAll(listName.lista(result, nm.topo30()));
+
+                        ddOcor.add(resume.resumo(tp30, nm.topo30(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        topo30 = resume.resumo(tp30, nm.topo30(), h);
+                        resultados.append(topo30.toString() + "\n");
+
+                        break;
+
+                    case "fundo30 - diario":
+                        fd30D.addAll(listName.lista(result, nm.fundo30Diario()));
+
+                        ddOcor.add(resume.resumo(fd30D, nm.fundo30Diario(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        fundo30D = resume.resumo(fd30D, nm.fundo30Diario(), h);
+                        resultados.append(fundo30D.toString() + "\n");
+
+                        break;
+
+                    case "topo30 - diario":
+                        tp30D.addAll(listName.lista(result, nm.topo30Diario()));
+
+                        ddOcor.add(resume.resumo(tp30D, nm.topo30Diario(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        topo30D = resume.resumo(tp30D, nm.topo30Diario(), h);
+                        resultados.append(topo30D.toString() + "\n");
+
+                        break;
+
+                    case "fundo diario":
+                        fdd.addAll(listName.lista(result, nm.fundoDiario()));
+
+                        ddOcor.add(resume.resumo(fdd, nm.fundoDiario(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
+                        resultados.append(fundoD.toString() + "\n");
+
+                        break;
+
+                    case "topo diario":
+                        tpd.addAll(listName.lista(result, nm.topoDiario()));
+
+                        ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        topoD = resume.resumo(tpd, nm.topoDiario(), h);
+                        resultados.append(topoD.toString() + "\n");
+
+                        break;
+
                 }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
-
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
-
-                ddOcor.clear();
-                
-                
-                fundo30  = resume.resumo(fd30, nm.fundo30(), h);
-                resultados.append(fundo30.toString() + "\n");
-                
-                break;
-                
-                 case "topo30":
-                         tp30.addAll(listName.lista(result, nm.topo30()));
-                         
-                         ddOcor.add(resume.resumo(tp30, nm.topo30(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
-
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
-
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
-
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
-
-                ddOcor.clear();
-                
-                
-                topo30  = resume.resumo(tp30, nm.topo30(), h);
-                resultados.append(topo30.toString() + "\n");
-                
-                break;
-                
-                 case "fundo30 - diario":
-                         fd30D.addAll(listName.lista(result, nm.fundo30Diario()));
-                         
-                         ddOcor.add(resume.resumo(fd30D, nm.fundo30Diario(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
-
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
-
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
-
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
-
-                ddOcor.clear();
-                
-                
-                fundo30D  = resume.resumo(fd30D, nm.fundo30Diario(), h);
-                resultados.append(fundo30D.toString() + "\n");
-                
-                break;
-                
-                 case "topo30 - diario":
-                         tp30D.addAll(listName.lista(result, nm.topo30Diario()));
-                         
-                         ddOcor.add(resume.resumo(tp30D, nm.topo30Diario(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
-
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
-
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
-
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
-
-                ddOcor.clear();
-                
-                
-                topo30D  = resume.resumo(tp30D, nm.topo30Diario(), h);
-                resultados.append(topo30D.toString() + "\n");
-                
-                break;
-                
-                 case "fundo diario":
-                         fdd.addAll(listName.lista(result, nm.fundoDiario()));
-                         
-                         ddOcor.add(resume.resumo(fdd, nm.fundoDiario(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
-
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
-
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
-
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
-
-                ddOcor.clear();
-                
-                
-                fundoD  = resume.resumo(fdd, nm.fundoDiario(), h);
-                resultados.append(fundoD.toString() + "\n");
-                
-                break;
-                
-                 case "topo diario":
-                         tpd.addAll(listName.lista(result, nm.topoDiario()));
-                         
-                         ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
-
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
-
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
-
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
-
-                ddOcor.clear();
-                
-                
-                topoD  = resume.resumo(tpd, nm.topoDiario(), h);
-                resultados.append(topoD.toString() + "\n");
-                
-                break;
-                     
-                 }
                 break;
 
             case 9:
                 fim.addAll(horas.nove(result));
-                 fd30.addAll(listName.lista(fim, nm.fundo30()));
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -3620,40 +3429,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -3676,7 +3482,7 @@ fim.addAll(horas.quinze(result));
 
             case 10:
                 fim.addAll(horas.dez(result));
-                 fd30.addAll(listName.lista(fim, nm.fundo30()));
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -3697,40 +3503,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -3753,7 +3556,7 @@ fim.addAll(horas.quinze(result));
 
             case 11:
                 fim.addAll(horas.onze(result));
-                 fd30.addAll(listName.lista(fim, nm.fundo30()));
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -3774,40 +3577,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -3830,7 +3630,7 @@ fim.addAll(horas.quinze(result));
 
             case 12:
                 fim.addAll(horas.doze(result));
-                 fd30.addAll(listName.lista(fim, nm.fundo30()));
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -3851,40 +3651,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -3907,7 +3704,7 @@ fim.addAll(horas.quinze(result));
 
             case 13:
                 fim.addAll(horas.treze(result));
-                 fd30.addAll(listName.lista(fim, nm.fundo30()));
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -3928,40 +3725,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -3984,7 +3778,7 @@ fim.addAll(horas.quinze(result));
 
             case 14:
                 fim.addAll(horas.quatorze(result));
-                 fd30.addAll(listName.lista(fim, nm.fundo30()));
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -4005,40 +3799,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -4061,7 +3852,7 @@ fim.addAll(horas.quinze(result));
             case 15:
 
                 fim.addAll(horas.quinze(result));
-                 fd30.addAll(listName.lista(fim, nm.fundo30()));
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -4082,40 +3873,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -4139,7 +3927,7 @@ fim.addAll(horas.quinze(result));
             case 16:
 
                 fim.addAll(horas.dezesseis(result));
-                 fd30.addAll(listName.lista(fim, nm.fundo30()));
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -4160,40 +3948,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -4251,16 +4036,7 @@ fim.addAll(horas.quinze(result));
         DefaultTableModel model = (DefaultTableModel) tabela.getModel();
         Object[] columNames = {"id", "nome", "acerto", "ranger", "ponto", "hora", "data"};
         model.setColumnIdentifiers(columNames);
-        /*  Acertos acerto = new Acertos();
-        Erros erro = new Erros();
-        Total total = new Total();
-        int acertos = 0;
-        int erros = 0;
-        double totale = 0;
-        String ac;
-        String er;
-        String tl;
-         */
+      
         String resumo;
 
         String melhor = "MELHOR OCÔRRENCIA \n";
@@ -4271,10 +4047,10 @@ fim.addAll(horas.quinze(result));
 
         result = filtro.ano();
         int h = hrs.resultados(horarios());
-        //inserindo dados na tabela
+        
         for (Ocorrencias oc : result) {
-            System.out.println(oc.toString());
-            if (registros.contains(oc) == true) {
+           
+            if (registros.contains(oc.get_Id()) == true) {
 
             } else {
 
@@ -4284,316 +4060,286 @@ fim.addAll(horas.quinze(result));
 
             }
             registros.add(oc);
-            System.out.println("Conferindo o tamanho do observador" + "\n");
-            System.out.println(registros.size());
+          
         }
-        /*
-            *TODO necessario alterar dentro da condição h == 1 o nome do resultado que deve ser conforme 
-            * o nome da ocorrencia.
-         */
+     
 
         //mostrando dados na tela de texto
         switch (h) {
             case 1:
-                
-                
-                
-                 switch(nome.getSelectedItem().toString()){
-                     
-                     case "fundo30":
-                         fd30.addAll(listName.lista(result, nm.fundo30()));
-                         
-                         ddOcor.add(resume.resumo(fd30, nm.fundo30(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
 
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
+                switch (nome.getSelectedItem().toString()) {
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                    case "fundo30":
+                        fd30.addAll(listName.lista(result, nm.fundo30()));
+
+                        ddOcor.add(resume.resumo(fd30, nm.fundo30(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        fundo30 = resume.resumo(fd30, nm.fundo30(), h);
+                        resultados.append(fundo30.toString() + "\n");
+
+                        break;
+
+                    case "topo30":
+                        tp30.addAll(listName.lista(result, nm.topo30()));
+
+                        ddOcor.add(resume.resumo(tp30, nm.topo30(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        topo30 = resume.resumo(tp30, nm.topo30(), h);
+                        resultados.append(topo30.toString() + "\n");
+
+                        break;
+
+                    case "fundo30 - diario":
+                        fd30D.addAll(listName.lista(result, nm.fundo30Diario()));
+
+                        ddOcor.add(resume.resumo(fd30D, nm.fundo30Diario(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        fundo30D = resume.resumo(fd30D, nm.fundo30Diario(), h);
+                        resultados.append(fundo30D.toString() + "\n");
+
+                        break;
+
+                    case "topo30 - diario":
+                        tp30D.addAll(listName.lista(result, nm.topo30Diario()));
+
+                        ddOcor.add(resume.resumo(tp30D, nm.topo30Diario(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        topo30D = resume.resumo(tp30D, nm.topo30Diario(), h);
+                        resultados.append(topo30D.toString() + "\n");
+
+                        break;
+
+                    case "fundo diario":
+                        fdd.addAll(listName.lista(result, nm.fundoDiario()));
+
+                        ddOcor.add(resume.resumo(fdd, nm.fundoDiario(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
+                        resultados.append(fundoD.toString() + "\n");
+
+                        break;
+
+                    case "topo diario":
+                        tpd.addAll(listName.lista(result, nm.topoDiario()));
+
+                        ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
+
+                        QTD = relevante.maiorQTD(ddOcor);
+
+                        dd = relevante.melhor(ddOcor);
+
+                        dst = relevante.destaque(QTD);
+                        ddp = relevante.pior(ddOcor);
+                        melhor = "MELHOR OCÔRRENCIA \n";
+                        destaque = "OCÔRRENCIA QUE SE DESTACA \n";
+                        pior = "PIOR OCÔRRENCIA \n";
+
+                        if (dd == null) {
+                            resultados.append(melhor + "------------------------------- \n");
+
+                        } else {
+
+                            resultados.append(melhor + dd.toString() + "\n");
+                        }
+
+                        if (dst == null) {
+                            resultados.append(destaque + "------------------------------- \n");
+                        } else {
+                            resultados.append(destaque + dst.toString() + "\n");
+                        }
+                        if (ddp == null) {
+                            resultados.append(pior + "------------------------------- \n");
+                        } else {
+
+                            resultados.append(pior + ddp.toString() + "\n");
+                        }
+
+                        resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
+
+                        ddOcor.clear();
+
+                        topoD = resume.resumo(tpd, nm.topoDiario(), h);
+                        resultados.append(topoD.toString() + "\n");
+
+                        break;
+
                 }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
-
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
-
-                ddOcor.clear();
-                
-                
-                fundo30  = resume.resumo(fd30, nm.fundo30(), h);
-                resultados.append(fundo30.toString() + "\n");
-                
-                break;
-                
-                 case "topo30":
-                         tp30.addAll(listName.lista(result, nm.topo30()));
-                         
-                         ddOcor.add(resume.resumo(tp30, nm.topo30(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
-
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
-
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
-
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
-
-                ddOcor.clear();
-                
-                
-                topo30  = resume.resumo(tp30, nm.topo30(), h);
-                resultados.append(topo30.toString() + "\n");
-                
-                break;
-                
-                 case "fundo30 - diario":
-                         fd30D.addAll(listName.lista(result, nm.fundo30Diario()));
-                         
-                         ddOcor.add(resume.resumo(fd30D, nm.fundo30Diario(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
-
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
-
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
-
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
-
-                ddOcor.clear();
-                
-                
-                fundo30D  = resume.resumo(fd30D, nm.fundo30Diario(), h);
-                resultados.append(fundo30D.toString() + "\n");
-                
-                break;
-                
-                 case "topo30 - diario":
-                         tp30D.addAll(listName.lista(result, nm.topo30Diario()));
-                         
-                         ddOcor.add(resume.resumo(tp30D, nm.topo30Diario(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
-
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
-
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
-
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
-
-                ddOcor.clear();
-                
-                
-                topo30D  = resume.resumo(tp30D, nm.topo30Diario(), h);
-                resultados.append(topo30D.toString() + "\n");
-                
-                break;
-                
-                 case "fundo diario":
-                         fdd.addAll(listName.lista(result, nm.fundoDiario()));
-                         
-                         ddOcor.add(resume.resumo(fdd, nm.fundoDiario(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
-
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
-
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
-
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
-
-                ddOcor.clear();
-                
-                
-                fundoD  = resume.resumo(fdd, nm.fundoDiario(), h);
-                resultados.append(fundoD.toString() + "\n");
-                
-                break;
-                
-                 case "topo diario":
-                         tpd.addAll(listName.lista(result, nm.topoDiario()));
-                         
-                         ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
-                         
-                         QTD = relevante.maiorQTD(ddOcor);
-
-                dd = relevante.melhor(ddOcor);
-                
-                dst = relevante.destaque(QTD);
-                ddp = relevante.pior(ddOcor);
-                melhor = "MELHOR OCÔRRENCIA \n";
-                destaque = "OCÔRRENCIA QUE SE DESTACA \n";
-                pior = "PIOR OCÔRRENCIA \n";
-
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
-                }
-                
-                if (dst == null) {
-                    resultados.append(destaque + "------------------------------- \n");
-                } else {
-                    resultados.append(destaque + dst.toString());
-                }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
-                }
-
-                resultados.append("Todas as ocorrencias deste horario com o mesmo nome \n");
-                
-                
-             
-
-                ddOcor.clear();
-                
-                
-                topoD  = resume.resumo(tpd, nm.topoDiario(), h);
-                resultados.append(topoD.toString() + "\n");
-                
-                break;
-                     
-                 }
                 break;
 
             case 9:
                 fim.addAll(horas.nove(result));
-                 fd30.addAll(listName.lista(fim, nm.fundo30()));
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -4614,40 +4360,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -4670,7 +4413,7 @@ fim.addAll(horas.quinze(result));
 
             case 10:
                 fim.addAll(horas.dez(result));
-                 fd30.addAll(listName.lista(fim, nm.fundo30()));
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -4691,40 +4434,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -4747,7 +4487,7 @@ fim.addAll(horas.quinze(result));
 
             case 11:
                 fim.addAll(horas.onze(result));
-                 fd30.addAll(listName.lista(fim, nm.fundo30()));
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -4768,40 +4508,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -4824,7 +4561,7 @@ fim.addAll(horas.quinze(result));
 
             case 12:
                 fim.addAll(horas.doze(result));
-                 fd30.addAll(listName.lista(fim, nm.fundo30()));
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -4845,40 +4582,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -4901,7 +4635,7 @@ fim.addAll(horas.quinze(result));
 
             case 13:
                 fim.addAll(horas.treze(result));
-                 fd30.addAll(listName.lista(fim, nm.fundo30()));
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -4922,40 +4656,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -4978,7 +4709,7 @@ fim.addAll(horas.quinze(result));
 
             case 14:
                 fim.addAll(horas.quatorze(result));
-                 fd30.addAll(listName.lista(fim, nm.fundo30()));
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -4999,40 +4730,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -5056,7 +4784,7 @@ fim.addAll(horas.quinze(result));
             case 15:
 
                 fim.addAll(horas.quinze(result));
-                 fd30.addAll(listName.lista(fim, nm.fundo30()));
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -5077,40 +4805,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -5134,7 +4859,7 @@ fim.addAll(horas.quinze(result));
             case 16:
 
                 fim.addAll(horas.dezesseis(result));
-                 fd30.addAll(listName.lista(fim, nm.fundo30()));
+                fd30.addAll(listName.lista(fim, nm.fundo30()));
 
                 tp30.addAll(listName.lista(fim, nm.topo30()));
                 fd30D.addAll(listName.lista(fim, nm.fundo30Diario()));
@@ -5155,40 +4880,37 @@ fim.addAll(horas.quinze(result));
 
                 ddOcor.add(resume.resumo(tpd, nm.topoDiario(), h));
 
-             
-
                 QTD = relevante.maiorQTD(ddOcor);
 
                 dd = relevante.melhor(ddOcor);
-                
+
                 dst = relevante.destaque(QTD);
                 ddp = relevante.pior(ddOcor);
                 melhor = "MELHOR OCÔRRENCIA \n";
                 destaque = "OCÔRRENCIA QUE SE DESTACA \n";
                 pior = "PIOR OCÔRRENCIA \n";
 
-                            if(dd == null){
-                                resultados.append(melhor + "------------------------------- \n");
-                 
-                }else{
-                    
-                resultados.append(melhor + dd.toString());
+                if (dd == null) {
+                    resultados.append(melhor + "------------------------------- \n");
+
+                } else {
+
+                    resultados.append(melhor + dd.toString() + "\n");
                 }
-                
+
                 if (dst == null) {
                     resultados.append(destaque + "------------------------------- \n");
                 } else {
-                    resultados.append(destaque + dst.toString());
+                    resultados.append(destaque + dst.toString() + "\n");
                 }
-                if(ddp == null){
-                resultados.append(pior + "------------------------------- \n");
-                }else{
-                
-                resultados.append(pior + ddp.toString());
+                if (ddp == null) {
+                    resultados.append(pior + "------------------------------- \n");
+                } else {
+
+                    resultados.append(pior + ddp.toString() + "\n");
                 }
 
                 resultados.append("Todas as ocorrencias deste horario \n");
-             
 
                 ddOcor.clear();
 
@@ -5286,31 +5008,41 @@ fim.addAll(horas.quinze(result));
     }//GEN-LAST:event_gerarActionPerformed
 
     private void salvarDocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarDocumentoActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            salvarArquivo();
+        } catch (BadLocationException ex) {
+            Logger.getLogger(Estatisticas.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_salvarDocumentoActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    
-    private void salvarArquivo() {
+    private void salvarArquivo() throws BadLocationException {
+        if (resultados.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "É necessário ter a tabela de dados preenchida!", "ATENÇÃO", HEIGHT);
+        } else {
 
-    
-   JFileChooser fileChooser = new JFileChooser();
-    
-    int result = fileChooser.showSaveDialog(this);
-    
-    if (result == JFileChooser.APPROVE_OPTION) {
-        File file = fileChooser.getSelectedFile();
-        
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-            writer.write(resultados.getText());
-            JOptionPane.showMessageDialog(null, "Arquivo salvo com sucesso!");
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao salvar o arquivo: " + e.getMessage());
+            JFileChooser fileChooser = new JFileChooser();
+
+            int result = fileChooser.showSaveDialog(this);
+
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+
+                    writer.write(resultados.getText());
+                    JOptionPane.showMessageDialog(null, "Arquivo salvo com sucesso!");
+
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(null, "Erro ao salvar o arquivo: " + e.getMessage());
+                }
+            }
         }
     }
-}
+
     private String names() {
         String name = nome.getSelectedItem().toString();
         return name;
