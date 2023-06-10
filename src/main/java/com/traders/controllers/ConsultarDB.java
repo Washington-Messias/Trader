@@ -23,12 +23,14 @@ public class ConsultarDB {
     
    public Set<Ocorrencias> retornarFiltro(){
          Set<Ocorrencias> filtro = new LinkedHashSet<Ocorrencias>();
-        
+         
+        final String db = "dbTraders";
+        final String dataBase = "ocorrencias";
         MongoClient mongoCliente = new MongoClient();
     
-    MongoDatabase database = mongoCliente.getDatabase("dbTraders");
+    MongoDatabase database = mongoCliente.getDatabase(db);
     
-    MongoCollection<Document> collections = database.getCollection("ocorrencias");
+    MongoCollection<Document> collections = database.getCollection(dataBase);
     
     MongoCursor<Document> cursor = collections.find().iterator();
     

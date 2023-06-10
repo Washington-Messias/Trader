@@ -67,9 +67,6 @@ public class MainPage extends javax.swing.JFrame {
         jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         data.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        data.setText("data");
-
-        ola.setText("jLabel1");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -77,23 +74,26 @@ public class MainPage extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(160, 160, 160)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(data)
-                    .addComponent(ola))
-                .addContainerGap(171, Short.MAX_VALUE))
+                .addComponent(ola)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(189, Short.MAX_VALUE)
+                .addComponent(data)
+                .addGap(183, 183, 183))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addGap(28, 28, 28)
                 .addComponent(data)
-                .addGap(64, 64, 64)
+                .addGap(59, 59, 59)
                 .addComponent(ola)
                 .addContainerGap(96, Short.MAX_VALUE))
         );
 
         jMenu3.setText("Cadastro");
 
+        cadastro.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
         cadastro.setText("Cadastro autômatico");
         cadastro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -102,6 +102,7 @@ public class MainPage extends javax.swing.JFrame {
         });
         jMenu3.add(cadastro);
 
+        cadastroManual.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
         cadastroManual.setText("Cadastro Manual");
         cadastroManual.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -114,6 +115,7 @@ public class MainPage extends javax.swing.JFrame {
 
         jMenu4.setText("Estatistica");
 
+        estatistica.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
         estatistica.setText("Estatistica");
         estatistica.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -143,7 +145,7 @@ public class MainPage extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(83, Short.MAX_VALUE)
+                .addContainerGap(95, Short.MAX_VALUE)
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -158,10 +160,10 @@ public class MainPage extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(46, 46, 46)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(109, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(544, 367));
+        setSize(new java.awt.Dimension(560, 405));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -199,7 +201,7 @@ public class MainPage extends javax.swing.JFrame {
                ola.setForeground(Color.blue);
             ola.setFont(new Font("sans-serif", Font.BOLD, 16));
             ola.setText("Boa tarde, Eduardo!!!");
-        }else if(horas >= 18 && horas < 00){
+        }else if(horas >= 18 && horas < 24){
                 ola.setForeground(Color.blue);
             ola.setFont(new Font("sans-serif", Font.BOLD, 16));
             ola.setText("Boa noite, Eduardo!!!");

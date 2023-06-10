@@ -32,7 +32,7 @@
           <Group type="102" attributes="0">
               <EmptySpace min="-2" pref="142" max="-2" attributes="0"/>
               <Component id="statusOCR" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="581" max="32767" attributes="0"/>
+              <EmptySpace pref="612" max="32767" attributes="0"/>
           </Group>
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
@@ -83,7 +83,7 @@
                       <Component id="jPanel7" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="9" max="32767" attributes="0"/>
+              <EmptySpace pref="33" max="32767" attributes="0"/>
               <Component id="statusOCR" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
           </Group>
@@ -92,9 +92,6 @@
   </Layout>
   <SubComponents>
     <Component class="javax.swing.JLabel" name="dataAtual">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="data"/>
-      </Properties>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel1">
       <Properties>
@@ -480,9 +477,6 @@
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="statusOCR">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="status"/>
-      </Properties>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel7">
       <Properties>

@@ -24,6 +24,9 @@ import org.bson.Document;
  */
 public class CadastroOCRManual extends javax.swing.JFrame {
 
+    final String db = "dbTraders";
+    final String dataBase = "ocorrencias";
+    
     /**
      * Creates new form CadastroOCRManual
      */
@@ -33,9 +36,9 @@ public class CadastroOCRManual extends javax.swing.JFrame {
 
     MongoClient mongoClient = new MongoClient();
 
-    MongoDatabase mongoDatabase = mongoClient.getDatabase("dbTraders");
+    MongoDatabase mongoDatabase = mongoClient.getDatabase(db);
 
-    MongoCollection collection = mongoDatabase.getCollection("ocorrencias");
+    MongoCollection collection = mongoDatabase.getCollection(dataBase);
 
     Function<Boolean, String> decisao = p -> p == true ? "sim" : "nao";
     Function<Boolean, String> rang = r -> r == true ? "4pts" : "6pts";
@@ -1043,8 +1046,6 @@ public class CadastroOCRManual extends javax.swing.JFrame {
             }
         });
 
-        dataAtual.setText("data");
-
         jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -1306,8 +1307,6 @@ public class CadastroOCRManual extends javax.swing.JFrame {
             }
         });
 
-        statusOCR.setText("status");
-
         jPanel7.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -1398,7 +1397,7 @@ public class CadastroOCRManual extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(142, 142, 142)
                 .addComponent(statusOCR)
-                .addContainerGap(581, Short.MAX_VALUE))
+                .addContainerGap(612, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -1436,7 +1435,7 @@ public class CadastroOCRManual extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(43, 43, 43)
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(statusOCR)
                 .addGap(33, 33, 33))
         );

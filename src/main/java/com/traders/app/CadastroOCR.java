@@ -19,6 +19,7 @@ import java.util.function.Function;
 import org.bson.Document;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 /**
@@ -26,6 +27,9 @@ import javax.swing.Timer;
  * @author Windows 7
  */
 public class CadastroOCR extends javax.swing.JFrame {
+    
+    final String db = "dbTraders";
+    final String dataBase = "ocorrencias";
 
     /**
      * Creates new form MainPage
@@ -39,9 +43,9 @@ public class CadastroOCR extends javax.swing.JFrame {
     
             MongoClient mongoCliente = new MongoClient();
 
-            MongoDatabase database = mongoCliente.getDatabase("dbTraders");
+            MongoDatabase database = mongoCliente.getDatabase(db);
 
-            MongoCollection<Document> collection = database.getCollection("ocorrencias");
+            MongoCollection<Document> collection = database.getCollection(dataBase);
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -94,10 +98,6 @@ public class CadastroOCR extends javax.swing.JFrame {
                 cadastroActionPerformed(evt);
             }
         });
-
-        statusOCR.setText("status da ocorrencia");
-
-        date.setText("Data");
 
         labelHora.setText("00:00:00");
 
@@ -368,7 +368,7 @@ public class CadastroOCR extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 103, Short.MAX_VALUE)
                         .addComponent(date)
                         .addGap(65, 65, 65)
                         .addComponent(labelHora)
@@ -643,7 +643,7 @@ private String valor(){
                 try {
                     while (cursor.hasNext()) {
                         boolean verificando = cursor.next().equals(doc);
-                        System.out.println(verificando);
+                        
                         if (verificando == true) {
                             System.out.println(doc);
                             statusOCR.setFont(new Font("Sans-serif", Font.BOLD, 14));
@@ -652,7 +652,7 @@ private String valor(){
                         }
                     }
                 } catch (Exception e) {
-                    System.out.println("ERROR: " + e);
+                    JOptionPane.showMessageDialog(null, "ERRO: " + e);
                 } finally {
                     cursor.close();
                 }
@@ -660,159 +660,7 @@ private String valor(){
                 }
                 
             }
-/*
-            if (topo30.isSelected()) {
-                String hr = new CapturandoHora().hora(labelHora.getText());
-                int hrs = Integer.valueOf(hr);
-                  if(hrs < 9 || hrs > 17){
-                    statusOCR.setText("Horario não permitido para o cadastro da ocorrencia!!!");
-                }else{
-                  Document doc = new Document("nome", fundoDeTrinta())
-                        .append("acertou", decisao.apply(acertou()))
-                        .append("ranger", valor())
-                        .append("ponto", decisao.apply(ponto()))
-                        .append("hora", hrs)
-                        .append("data", date.getText());
 
-                collection.insertOne(doc);
-
-                MongoCursor<Document> cursor = collection.find().iterator();
-
-                try {
-                    while (cursor.hasNext()) {
-                        boolean verificando = cursor.next().equals(doc);
-                        System.out.println(verificando);
-                        if (verificando == true) {
-                            System.out.println(doc);
-                            statusOCR.setFont(new Font("Sans-serif", Font.BOLD, 14));
-                            statusOCR.setForeground(Color.GREEN);
-                            statusOCR.setText("Cadastro efetuado com sucesso");
-                        }
-                    }
-                } catch (Exception e) {
-                    System.out.println("ERROR: " + e);
-                } finally {
-                    cursor.close();
-                }
-   
-                }
-            }
-
-            if (fundoDiario.isSelected()) {
-                String hr = new CapturandoHora().hora(labelHora.getText());
-                int hrs = Integer.valueOf(hr);
-                 if(hrs < 9 || hrs > 17){
-                    statusOCR.setText("Horario não permitido para o cadastro da ocorrencia!!!");
-                }else{
-                  Document doc = new Document("nome", fundoDeTrinta())
-                        .append("acertou", decisao.apply(acertou()))
-                        .append("ranger", valor())
-                        .append("ponto", decisao.apply(ponto()))
-                        .append("hora", hrs)
-                        .append("data", date.getText());
-
-                collection.insertOne(doc);
-
-                MongoCursor<Document> cursor = collection.find().iterator();
-
-                try {
-                    while (cursor.hasNext()) {
-                        boolean verificando = cursor.next().equals(doc);
-                        System.out.println(verificando);
-                        if (verificando == true) {
-                            System.out.println(doc);
-                            statusOCR.setFont(new Font("Sans-serif", Font.BOLD, 14));
-                            statusOCR.setForeground(Color.GREEN);
-                            statusOCR.setText("Cadastro efetuado com sucesso");
-                        }
-                    }
-                } catch (Exception e) {
-                    System.out.println("ERROR: " + e);
-                } finally {
-                    cursor.close();
-                }
-   
-                }
-
-            }
-
-            if (topo30_diario.isSelected()) {
-                   String hr = new CapturandoHora().hora(labelHora.getText());
-                int hrs = Integer.valueOf(hr);
-                if(hrs < 9 || hrs > 17){
-                    statusOCR.setText("Horario não permitido para o cadastro da ocorrencia!!!");
-                }else{
-                  Document doc = new Document("nome", fundoDeTrinta())
-                        .append("acertou", decisao.apply(acertou()))
-                        .append("ranger", valor())
-                        .append("ponto", decisao.apply(ponto()))
-                        .append("hora", hrs)
-                        .append("data", date.getText());
-
-                collection.insertOne(doc);
-
-                MongoCursor<Document> cursor = collection.find().iterator();
-
-                try {
-                    while (cursor.hasNext()) {
-                        boolean verificando = cursor.next().equals(doc);
-                        System.out.println(verificando);
-                        if (verificando == true) {
-                            System.out.println(doc);
-                            statusOCR.setFont(new Font("Sans-serif", Font.BOLD, 14));
-                            statusOCR.setForeground(Color.GREEN);
-                            statusOCR.setText("Cadastro efetuado com sucesso");
-                        }
-                    }
-                } catch (Exception e) {
-                    System.out.println("ERROR: " + e);
-                } finally {
-                    cursor.close();
-                }
-   
-                }
-            }
-
-            if (fundo30_diario.isSelected()) {
-                   String hr = new CapturandoHora().hora(labelHora.getText());
-                int hrs = Integer.valueOf(hr);
-                 if(hrs < 9 || hrs > 17){
-                    statusOCR.setText("Horario não permitido para o cadastro da ocorrencia!!!");
-                }else{
-                  Document doc = new Document("nome", fundoDeTrinta())
-                        .append("acertou", decisao.apply(acertou()))
-                        .append("ranger", valor())
-                        .append("ponto", decisao.apply(ponto()))
-                        .append("hora", hrs)
-                        .append("data", date.getText());
-
-                collection.insertOne(doc);
-
-                MongoCursor<Document> cursor = collection.find().iterator();
-
-                try {
-                    while (cursor.hasNext()) {
-                        boolean verificando = cursor.next().equals(doc);
-                        System.out.println(verificando);
-                        if (verificando == true) {
-                            System.out.println(doc);
-                            statusOCR.setFont(new Font("Sans-serif", Font.BOLD, 14));
-                            statusOCR.setForeground(Color.GREEN);
-                            statusOCR.setText("Cadastro efetuado com sucesso");
-                        }
-                    }
-                } catch (Exception e) {
-                    System.out.println("ERROR: " + e);
-                } finally {
-                    cursor.close();
-                }
-   
-                }
-
-            }
-        }
-
-*/
     }//GEN-LAST:event_cadastroActionPerformed
     }
     private String nomes(){

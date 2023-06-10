@@ -15,5 +15,7 @@ Any value defined here will override the pom.xml file value but is only applicab
 -->
         <netbeans.compile.on.save>all</netbeans.compile.on.save>
         <netbeans.hint.jdkPlatform>Oracle_OpenJDK_17.0.2_8</netbeans.hint.jdkPlatform>
+        <org-netbeans-modules-javascript2-requirejs.enabled>true</org-netbeans-modules-javascript2-requirejs.enabled>
+        <netbeans.checkstyle.format>true</netbeans.checkstyle.format>
     </properties>
 </project-shared-configuration>

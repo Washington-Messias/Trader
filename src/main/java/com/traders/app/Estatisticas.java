@@ -28,6 +28,7 @@ import com.traders.models.Observation;
 import java.awt.Color;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -36,6 +37,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.EditorKit;
 import javax.swing.text.rtf.RTFEditorKit;
 
 /**
@@ -77,6 +79,7 @@ public class Estatisticas extends javax.swing.JFrame {
         um_ano = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Estatística");
         setName("estatisticas"); // NOI18N
 
         gerar.setText("Gerar");
@@ -223,13 +226,13 @@ public class Estatisticas extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 207, Short.MAX_VALUE)
                         .addComponent(salvarDocumento)
-                        .addGap(202, 202, 202))))
+                        .addGap(202, 202, 202))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         setSize(new java.awt.Dimension(800, 901));
@@ -653,7 +656,7 @@ resultados.append(pior + "----------------------------" + "\n");
                 fundo30D = resume.resumo(fd30D, nm.fundo30Diario(), h);
                 topo30D = resume.resumo(tp30D, nm.topo30Diario(), h);
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
-                topoD = resume.resumo(tpd, nm.topo30Diario(), h);
+                topoD = resume.resumo(tpd, nm.topoDiario(), h);
 
                 resultados.append("*--------------------* \n");
                 resultados.append(fundo30.toString() + "\n");
@@ -728,7 +731,7 @@ resultados.append(pior + "----------------------------" + "\n");
                 fundo30D = resume.resumo(fd30D, nm.fundo30Diario(), h);
                 topo30D = resume.resumo(tp30D, nm.topo30Diario(), h);
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
-                topoD = resume.resumo(tpd, nm.topo30Diario(), h);
+                topoD = resume.resumo(tpd, nm.topoDiario(), h);
 
                 resultados.append("*--------------------* \n");
                 resultados.append(fundo30.toString() + "\n");
@@ -802,7 +805,7 @@ resultados.append(pior + "----------------------------" + "\n");
                 fundo30D = resume.resumo(fd30D, nm.fundo30Diario(), h);
                 topo30D = resume.resumo(tp30D, nm.topo30Diario(), h);
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
-                topoD = resume.resumo(tpd, nm.topo30Diario(), h);
+                topoD = resume.resumo(tpd, nm.topoDiario(), h);
 
                 resultados.append("*--------------------* \n");
                 resultados.append(fundo30.toString() + "\n");
@@ -875,7 +878,7 @@ resultados.append(pior + "----------------------------" + "\n");
                 fundo30D = resume.resumo(fd30D, nm.fundo30Diario(), h);
                 topo30D = resume.resumo(tp30D, nm.topo30Diario(), h);
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
-                topoD = resume.resumo(tpd, nm.topo30Diario(), h);
+                topoD = resume.resumo(tpd, nm.topoDiario(), h);
 
                 resultados.append("*--------------------* \n");
                 resultados.append(fundo30.toString() + "\n");
@@ -948,7 +951,7 @@ resultados.append(pior + "----------------------------" + "\n");
                 fundo30D = resume.resumo(fd30D, nm.fundo30Diario(), h);
                 topo30D = resume.resumo(tp30D, nm.topo30Diario(), h);
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
-                topoD = resume.resumo(tpd, nm.topo30Diario(), h);
+                topoD = resume.resumo(tpd, nm.topoDiario(), h);
 
                 resultados.append("*--------------------* \n");
                 resultados.append(fundo30.toString() + "\n");
@@ -1021,7 +1024,7 @@ resultados.append(pior + "----------------------------" + "\n");
                 fundo30D = resume.resumo(fd30D, nm.fundo30Diario(), h);
                 topo30D = resume.resumo(tp30D, nm.topo30Diario(), h);
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
-                topoD = resume.resumo(tpd, nm.topo30Diario(), h);
+                topoD = resume.resumo(tpd, nm.topoDiario(), h);
 
                 resultados.append("*--------------------*\n");
                 resultados.append(fundo30.toString() + "\n");
@@ -1095,7 +1098,7 @@ resultados.append(pior + "----------------------------" + "\n");
                 fundo30D = resume.resumo(fd30D, nm.fundo30Diario(), h);
                 topo30D = resume.resumo(tp30D, nm.topo30Diario(), h);
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
-                topoD = resume.resumo(tpd, nm.topo30Diario(), h);
+                topoD = resume.resumo(tpd, nm.topoDiario(), h);
 
                 resultados.append("*--------------------* \n");
                 resultados.append(fundo30.toString() + "\n");
@@ -1169,7 +1172,7 @@ resultados.append(pior + "----------------------------" + "\n");
                 fundo30D = resume.resumo(fd30D, nm.fundo30Diario(), h);
                 topo30D = resume.resumo(tp30D, nm.topo30Diario(), h);
                 fundoD = resume.resumo(fdd, nm.fundoDiario(), h);
-                topoD = resume.resumo(tpd, nm.topo30Diario(), h);
+                topoD = resume.resumo(tpd, nm.topoDiario(), h);
 
                 resultados.append("*--------------------* \n");
                 resultados.append(fundo30.toString() + "\n");
@@ -5030,7 +5033,7 @@ resultados.append(pior + "----------------------------" + "\n");
 
             if (result == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
-
+/*
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
 
                     writer.write(resultados.getText());
@@ -5038,9 +5041,18 @@ resultados.append(pior + "----------------------------" + "\n");
 
                 } catch (IOException e) {
                     JOptionPane.showMessageDialog(null, "Erro ao salvar o arquivo: " + e.getMessage());
-                }
+                }*/
+   try (FileOutputStream fileStream = new FileOutputStream(file)) {
+            EditorKit kit = new RTFEditorKit();
+            DefaultStyledDocument doc = new DefaultStyledDocument();
+            doc.insertString(0, resultados.getText(), null);
+            kit.write(fileStream, doc, 0, doc.getLength());
+            JOptionPane.showMessageDialog(null, "Arquivo salvo com sucesso!");
+        } catch (IOException | BadLocationException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao salvar o arquivo: " + e.getMessage());
             }
         }
+    }
     }
 
     private String names() {

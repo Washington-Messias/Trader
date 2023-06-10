@@ -54,7 +54,7 @@
                   </Group>
                   <Group type="102" attributes="0">
                       <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="79" max="32767" attributes="0"/>
+                      <EmptySpace pref="103" max="32767" attributes="0"/>
                       <Component id="date" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
                       <Component id="labelHora" min="-2" max="-2" attributes="0"/>
@@ -112,14 +112,8 @@
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="statusOCR">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="status da ocorrencia"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="date">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Data"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="labelHora">
       <Properties>
